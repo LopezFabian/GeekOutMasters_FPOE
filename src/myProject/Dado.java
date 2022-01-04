@@ -8,7 +8,8 @@ public class Dado {
     //private String caraContraria;
 
     /**
-     * Class Constructor
+     * Class
+     * Constructor
      */
     public Dado(){
         Random numeroAleatorio= new Random();
