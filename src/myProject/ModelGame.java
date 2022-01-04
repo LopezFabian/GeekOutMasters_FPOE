@@ -21,7 +21,7 @@ public class ModelGame {
         dadosInactivos= new Dado[10];
         dadosUtilizados= new Dado[10];
         cantidadDadosA=0;
-        numeroRonda=1;/**
+        numeroRonda=1;
          for (int i=0;i<10;i++){
          if(i<7){
          dadosActivos[i]= new Dado();
@@ -34,7 +34,7 @@ public class ModelGame {
          dadosActivos[i]= null;
          dadosInactivos[i]=null;
          }
-         }*/
+         }
     }
 
     public int contarDados(Dado[] vectorDados){
@@ -44,6 +44,9 @@ public class ModelGame {
             }
         }
         return cantidadDadosA;
+    }
+    public int contarDadosActivos(){
+        return contarDados(dadosActivos);
     }
     public void activarDado(Dado dadoActivado,Dado dadoSeleccionado){
         if(dadoActivado.getCara()=="meeple"){
@@ -69,4 +72,5 @@ public class ModelGame {
             }
         }
     }
+
 }

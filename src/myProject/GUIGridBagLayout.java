@@ -33,7 +33,8 @@ public class GUIGridBagLayout extends JFrame {
     private ImageIcon imageDados;
     private JTextArea numeroDado, tarjetaPuntuacion;
     private Escucha escucha;
-    //private ModelGame modelGame;
+    private ModelGame modelGame;
+    private int dadoSeleccionado;
 
     /**
      * Constructor of GUI class
@@ -48,6 +49,7 @@ public class GUIGridBagLayout extends JFrame {
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        dadoSeleccionado=0;
     }
 
     /**
@@ -62,7 +64,7 @@ public class GUIGridBagLayout extends JFrame {
 
         //Create Listener Object and Control Object
         escucha = new Escucha();
-        //modelGame = new ModelGame;
+        modelGame = new ModelGame();
         //Set up JComponents
         headerProject = new Header("Mesa Juego Geek Out Masters", Color.BLACK);
         constrains.gridx = 0;
@@ -79,6 +81,19 @@ public class GUIGridBagLayout extends JFrame {
         constrains.fill = GridBagConstraints.NONE;
         constrains.anchor = GridBagConstraints.LINE_START;
         this.add(ayuda, constrains);
+
+        imageDados = new ImageIcon(getClass().getResource("/resources/logo.png"));
+        dado1 = new JLabel(imageDados);
+        dado2 = new JLabel(imageDados);
+        dado3 = new JLabel(imageDados);
+        dado4 = new JLabel(imageDados);
+        dado5 = new JLabel(imageDados);
+        dado6 = new JLabel(imageDados);
+        dado7 = new JLabel(imageDados);
+        dado8 = new JLabel(imageDados);
+        dado9 = new JLabel(imageDados);
+        dado10 = new JLabel(imageDados);
+
 
         panelRondas = new JPanel();
         panelRondas.setPreferredSize(new Dimension(200, 26));
@@ -132,16 +147,15 @@ public class GUIGridBagLayout extends JFrame {
         add(panelPuntuacion,constrains);
 
         panelInteraccion = new JPanel(new GridBagLayout());
-        panelInteraccion.setPreferredSize(new Dimension(300, 106));
+        panelInteraccion.setPreferredSize(new Dimension(300, 110));
         panelInteraccion.setBackground(Color.CYAN);
         constrains.gridx = 0;
         constrains.gridy = 6;
         constrains.gridheight = 1;
+        //constrains.insets =(0,0,0,0) ;
         constrains.fill = GridBagConstraints.NONE;
         constrains.anchor = GridBagConstraints.CENTER;
         add(panelInteraccion,constrains);
-
-
 
         panelSeleccion = new JPanel();
         panelSeleccion.setPreferredSize(new Dimension(200, 100));
@@ -197,16 +211,14 @@ public class GUIGridBagLayout extends JFrame {
     private class Escucha implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == activar) {
+            if (e.getSource() == cambiar) {
+                modelGame.contarDadosActivos();
 
-            } else {
-                if (e.getSource() == ayuda) {
-                    JOptionPane.showMessageDialog(null, MENSAJE_INICIO);
-                } else {
-                    System.exit(0);
-                }
-
+            } else if (e.getSource() == ayuda) {
+                JOptionPane.showMessageDialog(null, MENSAJE_INICIO);
             }
         }
     }
 }
+
+
