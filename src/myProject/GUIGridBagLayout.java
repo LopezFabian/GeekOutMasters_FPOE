@@ -111,12 +111,12 @@ public class GUIGridBagLayout extends JFrame {
         this.add(panelRondas, constrains);
 
         panelActivos = new JPanel();
-        panelActivos.setPreferredSize(new Dimension(560, 400));
+        panelActivos.setPreferredSize(new Dimension(400, 450));
         panelActivos.setBorder(BorderFactory.createTitledBorder(" Tus Dados "));
         constrains.gridx = 0;
         constrains.gridy = 2;
         constrains.gridheight = 4;
-        constrains.fill = GridBagConstraints.BOTH;
+        constrains.fill = GridBagConstraints.NONE;
         constrains.anchor = GridBagConstraints.CENTER;
         add(panelActivos,constrains);
 
@@ -135,7 +135,7 @@ public class GUIGridBagLayout extends JFrame {
 
 
         panelInactivos = new JPanel();
-        panelInactivos.setPreferredSize(new Dimension(330, 170));
+        panelInactivos.setPreferredSize(new Dimension(330, 220));
         panelInactivos.setBorder(BorderFactory.createTitledBorder(" Dados Inactivos "));
         constrains.gridx = 1;
         constrains.gridy = 1;
@@ -145,7 +145,7 @@ public class GUIGridBagLayout extends JFrame {
         add(panelInactivos,constrains);
 
         panelUtilizados = new JPanel();
-        panelUtilizados.setPreferredSize(new Dimension(330, 170));
+        panelUtilizados.setPreferredSize(new Dimension(330, 220));
         panelUtilizados.setBorder(BorderFactory.createTitledBorder(" Dados Utilizados "));
         constrains.gridx = 1;
         constrains.gridy = 3;
@@ -155,7 +155,7 @@ public class GUIGridBagLayout extends JFrame {
         add(panelUtilizados,constrains);
 
         panelPuntuacion = new JPanel();
-        panelPuntuacion.setPreferredSize(new Dimension(330, 170));
+        panelPuntuacion.setPreferredSize(new Dimension(330, 210));
         panelPuntuacion.setBorder(BorderFactory.createTitledBorder(" Puntuacion "));
         constrains.gridx = 1;
         constrains.gridy = 5;
@@ -223,18 +223,16 @@ public class GUIGridBagLayout extends JFrame {
      */
 
     private class Escucha implements ActionListener {
+        public void Escucha(){
+
+        }
         @Override
         public void actionPerformed(ActionEvent e) {
-            panelActivos.removeAll();
-            /**panelInactivos.removeAll();
-            panelUtilizados.removeAll();*/
-            String[] zonaActivos, zonaUtilizados,zonaInactivos;
-            zonaActivos= new String[10];
-            zonaUtilizados= new String[10];
-            zonaInactivos= new String[10];
-            zonaActivos= modelGame.getCaraDado("dadosActivos");
-            zonaUtilizados= modelGame.getCaraDado("dadosUtilizados");
-            zonaInactivos= modelGame.getCaraDado("dadosInactivos");
+
+
+
+
+
             if (e.getSource() == cambiar) {
 
                 if(flag==0) {
@@ -254,80 +252,7 @@ public class GUIGridBagLayout extends JFrame {
                     activar.setVisible(true);
                     flag=1;
 
-                    for (int i=0;i<10;i++){
-                        if(zonaActivos[i]!=null){
-                           if(zonaActivos[i]=="meeple"){
-                               imageDados = new ImageIcon(getClass().getResource("/resources/meeple.png"));
-                               addLabel(getJLabel(controlLabel++),"dadosActivos") ;
-                           }else if(zonaActivos[i]=="cohete"){
-                               imageDados = new ImageIcon(getClass().getResource("/resources/cohete.png"));
-                               addLabel(getJLabel(controlLabel++),"dadosActivos") ;
-                           }else if(zonaActivos[i]=="superheroe"){
-                               imageDados = new ImageIcon(getClass().getResource("/resources/superheroe.png"));
-                               addLabel(getJLabel(controlLabel++),"dadosActivos") ;
-                           }else if(zonaActivos[i]=="corazon"){
-                               imageDados = new ImageIcon(getClass().getResource("/resources/corazon.png"));
-                               addLabel(getJLabel(controlLabel++),"dadosActivos") ;
-                           }else if(zonaActivos[i]=="dragon"){
-                               imageDados = new ImageIcon(getClass().getResource("/resources/dragon.png"));
-                               addLabel(getJLabel(controlLabel++),"dadosActivos") ;
-                           }else if(zonaActivos[i]=="42"){
-                               imageDados = new ImageIcon(getClass().getResource("/resources/42.png"));
-                               addLabel(getJLabel(controlLabel++),"dadosActivos") ;
-                           }
-                            panelActivos.revalidate();
-                            panelActivos.repaint();
-                        }
-
-                    }
-                    for (int i=0;i<10;i++){
-                        if(zonaInactivos[i]!=null){
-                            if(zonaInactivos[i]=="meeple"){
-                                imageDados = new ImageIcon(getClass().getResource("/resources/meeple.png"));
-                                addLabel(getJLabel(controlLabel++),"dadosInactivos") ;
-                            }else if(zonaInactivos[i]=="cohete"){
-                                imageDados = new ImageIcon(getClass().getResource("/resources/cohete.png"));
-                                addLabel(getJLabel(controlLabel++),"dadosInactivos") ;
-                            }else if(zonaInactivos[i]=="superheroe"){
-                                imageDados = new ImageIcon(getClass().getResource("/resources/superheroe.png"));
-                                addLabel(getJLabel(controlLabel++),"dadosInactivos") ;
-                            }else if(zonaInactivos[i]=="corazon"){
-                                imageDados = new ImageIcon(getClass().getResource("/resources/corazon.png"));
-                                addLabel(getJLabel(controlLabel++),"dadosInactivos") ;
-                            }else if(zonaInactivos[i]=="dragon"){
-                                imageDados = new ImageIcon(getClass().getResource("/resources/dragon.png"));
-                                addLabel(getJLabel(controlLabel++),"dadosInactivos") ;
-                            }else if(zonaInactivos[i]=="42"){
-                                imageDados = new ImageIcon(getClass().getResource("/resources/42.png"));
-                                addLabel(getJLabel(controlLabel++),"dadosInactivos") ;
-                            }
-                        }
-
-                    }
-
-                    for (int i=0;i<10;i++){
-                        if(zonaUtilizados[i]!=null){
-                            if(zonaUtilizados[i]=="meeple"){
-                                imageDados = new ImageIcon(getClass().getResource("/resources/meeple.png"));
-                                addLabel(getJLabel(controlLabel++),"dadosUtilizados") ;
-                            }else if(zonaUtilizados[i]=="cohete"){
-                                imageDados = new ImageIcon(getClass().getResource("/resources/cohete.png"));
-                                addLabel(getJLabel(controlLabel++),"dadosUtilizados") ;
-                            }else if(zonaUtilizados[i]=="superheroe"){
-                                imageDados = new ImageIcon(getClass().getResource("/resources/superheroe.png"));
-                                addLabel(getJLabel(controlLabel++),"dadosUtilizados") ;
-                            }else if(zonaUtilizados[i]=="corazon"){
-                                imageDados = new ImageIcon(getClass().getResource("/resources/crazon.png"));
-                                addLabel(getJLabel(controlLabel++),"dadosUtilizados") ;
-                            }else if(zonaUtilizados[i]=="dragon"){
-                                imageDados = new ImageIcon(getClass().getResource("/resources/dragon.png"));
-                                addLabel(getJLabel(controlLabel++),"dadosUtilizados") ;
-                            }else if(zonaUtilizados[i]=="42"){
-                                imageDados = new ImageIcon(getClass().getResource("/resources/42.png"));
-                                addLabel(getJLabel(controlLabel++),"dadosUtilizados") ;
-                            }
-                        }
-                    }
+                    actualizarInterfaz();
                 }
                 if (dadoSeleccionado<modelGame.contarDadosActivos()){
                     dadoSeleccionado=dadoSeleccionado+1;
@@ -341,11 +266,10 @@ public class GUIGridBagLayout extends JFrame {
             repaint();
         }
         private String getJLabel(int dadoN) {
-
+            System.out.println(dadoN);
             switch (dadoN) {
-
-                case 1 : dado1.setIcon(imageDados);
-                break;
+                case 1 :dado1.setIcon(imageDados);
+                    break;
                 case 2 : dado2.setIcon(imageDados);
                     break;
                 case 3 : dado3.setIcon(imageDados);
@@ -364,98 +288,175 @@ public class GUIGridBagLayout extends JFrame {
                     break;
                 case 10 : dado10.setIcon(imageDados);
                     break;
-
-                default:
-                    throw new IllegalStateException("Unexpected value: " + dadoN);
-            }
+                }
 
         return "dado"+dadoN;
         }
        private void addLabel(String dadoNu,String zona){
-            if(dadoNu=="dado1"){
-                if(zona=="dadosActivos"){
+
+            if(dadoNu.equals("dado1")){
+                if(zona.equals("dadosActivos")){
                   panelActivos.add(dado1);
-                    System.out.println("a");
-                }else if(zona=="dadosInactivos"){
+                }else if(zona.equals("dadosInactivos")){
                    panelInactivos.add(dado1);
-                    System.out.println("b");
-                }else if(zona=="dadosUtilizados"){
+                }else if(zona.equals("dadosUtilizados")){
                     panelUtilizados.add(dado1);
-                    System.out.println("c");
                 }
-            }else if(dadoNu=="dado2"){
-                if(zona=="dadosActivos"){
+            }else if(dadoNu.equals("dado2")){
+                if(zona.equals("dadosActivos")){
                     panelActivos.add(dado2);
-                }else if(zona=="dadosInactivos"){
+                }else if(zona.equals("dadosInactivos")){
                     panelInactivos.add(dado2);
-                }else if(zona=="dadosUtilizados"){
+                }else if(zona.equals("dadosUtilizados")){
                     panelUtilizados.add(dado2);
                 }
-            }else if(dadoNu=="dado3"){
-                if(zona=="dadosActivos"){
+            }else if(dadoNu.equals("dado3")){
+                if(zona.equals("dadosActivos")){
                     panelActivos.add(dado3);
-                }else if(zona=="dadosInactivos"){
+                }else if(zona.equals("dadosInactivos")){
                     panelInactivos.add(dado3);
-                }else if(zona=="dadosUtilizados"){
+                }else if(zona.equals("dadosUtilizados")){
                     panelUtilizados.add(dado3);
                 }
-            }else if(dadoNu=="dado4"){
-                if(zona=="dadosActivos"){
+            }else if(dadoNu.equals("dado4")){
+                if(zona.equals("dadosActivos")){
                     panelActivos.add(dado4);
-                }else if(zona=="dadosInactivos"){
+                }else if(zona.equals("dadosInactivos")){
                     panelInactivos.add(dado4);
-                }else if(zona=="dadosUtilizados"){
+                }else if(zona.equals("dadosUtilizados")){
                     panelUtilizados.add(dado4);
                 }
-            }else if(dadoNu=="dado5"){
-                if(zona=="dadosActivos"){
+            }else if(dadoNu.equals("dado5")){
+                if(zona.equals("dadosActivos")){
                     panelActivos.add(dado5);
-                }else if(zona=="dadosInactivos"){
+                }else if(zona.equals("dadosInactivos")){
                     panelInactivos.add(dado5);
-                }else if(zona=="dadosUtilizados"){
+                }else if(zona.equals("dadosUtilizados")){
                     panelUtilizados.add(dado5);
                 }
-            }else if(dadoNu=="dado6"){
-                if(zona=="dadosActivos"){
+            }else if(dadoNu.equals("dado6")){
+                if(zona.equals("dadosActivos")){
                     panelActivos.add(dado6);
-                }else if(zona=="dadosInactivos"){
+                }else if(zona.equals("dadosInactivos")){
                     panelInactivos.add(dado6);
-                }else if(zona=="dadosUtilizados"){
+                }else if(zona.equals("dadosUtilizados")){
                     panelUtilizados.add(dado6);
                 }
-            }else if(dadoNu=="dado7"){
-                if(zona=="dadosActivos"){
+            }else if(dadoNu.equals("dado7")){
+                if(zona.equals("dadosActivos")){
                     panelActivos.add(dado7);
-                }else if(zona=="dadosInactivos"){
+                }else if(zona.equals("dadosInactivos")){
                     panelInactivos.add(dado7);
-                }else if(zona=="dadosUtilizados"){
+                }else if(zona.equals("dadosUtilizados")){
                     panelUtilizados.add(dado7);
                 }
-            }else if(dadoNu=="dado8"){
-                if(zona=="dadosActivos"){
+            }else if(dadoNu.equals("dado8")){
+                if(zona.equals("dadosActivos")){
                     panelActivos.add(dado8);
-                }else if(zona=="dadosInactivos"){
+                }else if(zona.equals("dadosInactivos")){
                     panelInactivos.add(dado8);
-                }else if(zona=="dadosUtilizados"){
+                }else if(zona.equals("dadosUtilizados")){
                     panelUtilizados.add(dado8);
                 }
-            }else if(dadoNu=="dado9"){
-                if(zona=="dadosActivos"){
+            }else if(dadoNu.equals("dado9")){
+                if(zona.equals("dadosActivos")){
                     panelActivos.add(dado9);
-                }else if(zona=="dadosInactivos"){
+                }else if(zona.equals("dadosInactivos")){
                     panelInactivos.add(dado9);
-                }else if(zona=="dadosUtilizados"){
+                }else if(zona.equals("dadosUtilizados")){
                     panelUtilizados.add(dado9);
                 }
-            }else if(dadoNu=="dado10"){
-                if(zona=="dadosActivos"){
+            }else if(dadoNu.equals("dado10")){
+                if(zona.equals("dadosActivos")){
                     panelActivos.add(dado10);
-                }else if(zona=="dadosInactivos"){
+                }else if(zona.equals("dadosInactivos")){
                     panelInactivos.add(dado10);
-                }else if(zona=="dadosUtilizados"){
+                }else if(zona.equals("dadosUtilizados")){
                     panelUtilizados.add(dado10);
                 }
             }
+       }
+       private void actualizarInterfaz(){
+           String[] zonaActivos, zonaUtilizados,zonaInactivos;
+           zonaActivos= new String[10];
+           zonaUtilizados= new String[10];
+           zonaInactivos= new String[10];
+           zonaActivos= modelGame.getCaraDado("dadosActivos");
+           zonaUtilizados= modelGame.getCaraDado("dadosUtilizados");
+           zonaInactivos= modelGame.getCaraDado("dadosInactivos");
+           panelActivos.removeAll();
+           panelInactivos.removeAll();
+           panelUtilizados.removeAll();
+
+           for (int i=0;i<10;i++){
+               if(zonaActivos[i]!=null){
+                   System.out.println(zonaActivos[i]);
+
+                   if(zonaActivos[i]=="meeple"){
+                       imageDados = new ImageIcon(getClass().getResource("/resources/meeple.png"));
+                       addLabel(getJLabel(controlLabel++),"dadosActivos") ;
+                   }else if(zonaActivos[i]=="cohete"){
+                       imageDados = new ImageIcon(getClass().getResource("/resources/cohete.png"));
+                       addLabel(getJLabel(controlLabel++),"dadosActivos") ;
+                   }else if(zonaActivos[i]=="superheroe"){
+                       imageDados = new ImageIcon(getClass().getResource("/resources/superheroe.png"));
+                       addLabel(getJLabel(controlLabel++),"dadosActivos") ;
+                   }else if(zonaActivos[i]=="corazon"){
+                       imageDados = new ImageIcon(getClass().getResource("/resources/corazon.png"));
+                       addLabel(getJLabel(controlLabel++),"dadosActivos") ;
+                   }else if(zonaActivos[i]=="dragon"){
+                       imageDados = new ImageIcon(getClass().getResource("/resources/dragon.png"));
+                       addLabel(getJLabel(controlLabel++),"dadosActivos") ;
+                   }else if(zonaActivos[i]=="42"){
+                       imageDados = new ImageIcon(getClass().getResource("/resources/42.png"));
+                       addLabel(getJLabel(controlLabel++),"dadosActivos") ;
+                   }
+               }
+               if(zonaInactivos[i]!=null){
+                   System.out.println(zonaInactivos[i]);
+                   if(zonaInactivos[i]=="meeple"){
+                       imageDados = new ImageIcon(getClass().getResource("/resources/meeple.png"));
+                       addLabel(getJLabel(controlLabel++),"dadosInactivos") ;
+                   }else if(zonaInactivos[i]=="cohete"){
+                       imageDados = new ImageIcon(getClass().getResource("/resources/cohete.png"));
+                       addLabel(getJLabel(controlLabel++),"dadosInactivos") ;
+                   }else if(zonaInactivos[i]=="superheroe"){
+                       imageDados = new ImageIcon(getClass().getResource("/resources/superheroe.png"));
+                       addLabel(getJLabel(controlLabel++),"dadosInactivos") ;
+                   }else if(zonaInactivos[i]=="corazon"){
+                       imageDados = new ImageIcon(getClass().getResource("/resources/corazon.png"));
+                       addLabel(getJLabel(controlLabel++),"dadosInactivos") ;
+                   }else if(zonaInactivos[i]=="dragon"){
+                       imageDados = new ImageIcon(getClass().getResource("/resources/dragon.png"));
+                       addLabel(getJLabel(controlLabel++),"dadosInactivos") ;
+                   }else if(zonaInactivos[i]=="42"){
+                       imageDados = new ImageIcon(getClass().getResource("/resources/42.png"));
+                       addLabel(getJLabel(controlLabel++),"dadosInactivos") ;
+                   }
+               }
+               if(zonaUtilizados[i]!=null){
+                   if(zonaUtilizados[i]=="meeple"){
+                       imageDados = new ImageIcon(getClass().getResource("/resources/meeple.png"));
+                       addLabel(getJLabel(controlLabel++),"dadosUtilizados") ;
+                   }else if(zonaUtilizados[i]=="cohete"){
+                       imageDados = new ImageIcon(getClass().getResource("/resources/cohete.png"));
+                       addLabel(getJLabel(controlLabel++),"dadosUtilizados") ;
+                   }else if(zonaUtilizados[i]=="superheroe"){
+                       imageDados = new ImageIcon(getClass().getResource("/resources/superheroe.png"));
+                       addLabel(getJLabel(controlLabel++),"dadosUtilizados") ;
+                   }else if(zonaUtilizados[i]=="corazon"){
+                       imageDados = new ImageIcon(getClass().getResource("/resources/crazon.png"));
+                       addLabel(getJLabel(controlLabel++),"dadosUtilizados") ;
+                   }else if(zonaUtilizados[i]=="dragon"){
+                       imageDados = new ImageIcon(getClass().getResource("/resources/dragon.png"));
+                       addLabel(getJLabel(controlLabel++),"dadosUtilizados") ;
+                   }else if(zonaUtilizados[i]=="42"){
+                       imageDados = new ImageIcon(getClass().getResource("/resources/42.png"));
+                       addLabel(getJLabel(controlLabel++),"dadosUtilizados") ;
+                   }
+               }
+           }
+
        }
     }
 
