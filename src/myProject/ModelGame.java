@@ -40,6 +40,7 @@ public class ModelGame {
     }
 
     public int contarDados(Dado[] vectorDados){
+        int cantidadDadosA=0;
         for (int i=0;i<10;i++){
             if(vectorDados[i]!=null){
                 cantidadDadosA= cantidadDadosA + 1;
@@ -48,7 +49,6 @@ public class ModelGame {
         return cantidadDadosA;
     }
     public int contarDadosActivos(){
-
         return contarDados(dadosActivos);
     }
     public void activarDado(Dado dadoActivado,Dado dadoSeleccionado){
