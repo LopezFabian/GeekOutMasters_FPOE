@@ -1,5 +1,7 @@
 package myProject;
 
+import javax.swing.*;
+
 /**
  * ModelGame apply Geek Out Masters rules.
  *
@@ -11,7 +13,7 @@ package myProject;
 public class ModelGame {
     private Dado[] dadosActivos, dadosInactivos, dadosUtilizados;
     private int puntuacionRonda ,puntuacionJuego, cantidadDadosA, numeroRonda;
-    //private int[] caras;
+
 
     /**
      * Class Constructor
@@ -46,6 +48,7 @@ public class ModelGame {
         return cantidadDadosA;
     }
     public int contarDadosActivos(){
+
         return contarDados(dadosActivos);
     }
     public void activarDado(Dado dadoActivado,Dado dadoSeleccionado){
@@ -71,6 +74,21 @@ public class ModelGame {
                 puntuacionRonda=0;
             }
         }
+    }
+    public String[] getCaraDado(String nombreVector){
+        String vectorRetornar[]= new String[10];
+        for(int i=0; i<10;i++){
+            if (nombreVector=="dadosActivos"&&dadosActivos[i]!=null){
+               vectorRetornar[i] = dadosActivos[i].getCara();
+            }else if (nombreVector=="dadosInactivos"&&dadosInactivos[i]!=null){
+                vectorRetornar[i] = dadosInactivos[i].getCara();
+            }else if(nombreVector=="dadosUtilizados"&&dadosUtilizados[i]!=null){
+                vectorRetornar[i] = dadosUtilizados[i].getCara();
+            }else{
+                vectorRetornar[i] = null;
+            }
+        }
+        return vectorRetornar;
     }
 
 }
