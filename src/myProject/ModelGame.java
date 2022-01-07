@@ -42,6 +42,7 @@ public class ModelGame {
     public int contarDados(Dado[] vectorDados){
         int cantidadDadosA=0;
         for (int i=0;i<10;i++){
+
             if(vectorDados[i]!=null){
                 cantidadDadosA= cantidadDadosA + 1;
             }
@@ -51,27 +52,57 @@ public class ModelGame {
     public int contarDadosActivos(){
         return contarDados(dadosActivos);
     }
-    public void activarDado(Dado dadoActivado,Dado dadoSeleccionado){
-        if(dadoActivado.getCara()=="meeple"){
-            dadoSeleccionado= new Dado();
+    public void reOrganizarVector(Dado[] vectorDados){
+        for (int i=0;i<10;i++){
+            if(vectorDados[i]==null&&i<9){
+                vectorDados[i]=vectorDados[i+1];
+            }else if(i==9){
+                vectorDados[i]=null;
+            }
         }
-        else if(dadoActivado.getCara()=="cohete"){
-            dadosInactivos[contarDados(dadosInactivos)]=dadoSeleccionado;
-            dadoSeleccionado=null;
-        }
-        else if(dadoActivado.getCara()=="superheroe"){
-            //dadoSeleccionado.getCara() = dadoSeleccionado.getCaraContraria();
-        }
-        else if(dadoActivado.getCara()=="corazon"){
+    }
+    public void activarDado(int dadoActivar,int dadoEscogido){
+        Dado dadoT=new Dado();
+        dadoT.setCara(dadosActivos[dadoActivar].getCara());
+        dadosUtilizados[contarDados(dadosUtilizados)]= dadoT;
+
+       if (dadoEscogido<10){
+           if(dadosActivos[dadoActivar].getCara()=="meeple"){
+               dadosActivos[dadoEscogido] = new Dado();
+           }
+           else if(dadosActivos[dadoActivar].getCara()=="cohete"){
+               Dado dadoR=new Dado();
+               dadoR.setCara(dadosActivos[dadoEscogido].getCara());
+               dadosInactivos[contarDados(dadosInactivos)]= dadoR;
+               dadosActivos[dadoEscogido]=null;
+               reOrganizarVector(dadosActivos);
+
+               revisar(dadosActivos);
+               revisar(dadosInactivos);
+           }
+           else if(dadosActivos[dadoActivar].getCara()=="superheroe"){
+               dadosActivos[dadoEscogido].setCara(dadosActivos[dadoEscogido].getCaraContraria());
+           }
+       }
+        if(dadosActivos[dadoActivar].getCara()=="corazon"){
             if (dadosInactivos[0]!=null){
                 dadosActivos[contarDados(dadosActivos)]=new Dado();
                 dadosInactivos[contarDados(dadosInactivos)-1]=null;
             }
 
-        }else if(dadoActivado.getCara()=="dragon"){
+        }else if(dadosActivos[dadoActivar].getCara()=="dragon"){
             if (contarDados(dadosActivos)==1){
                 puntuacionJuego=0;
                 puntuacionRonda=0;
+            }
+        }
+        dadosActivos[dadoActivar]=null;
+        reOrganizarVector(dadosActivos);
+    }
+    public void revisar(Dado vectorRe[]){
+        for (int i=0;i<10;i++) {
+            if (vectorRe[i] != null) {
+                System.out.println("posicion "+i + ","+ vectorRe[i].getCara() );
             }
         }
     }

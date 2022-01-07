@@ -42,4 +42,14 @@ public class Dado {
         }
         return caraContraria;
     }
+    public void setCara(String caraS){
+        switch (caraS) {
+            case "meeple" -> numberCara = 1;
+            case "cohete" -> numberCara = 2;
+            case "superheroe" -> numberCara = 3;
+            case "corazon" -> numberCara = 4;
+            case "dragon" -> numberCara = 5;
+            case "42" -> numberCara = 6;
+        }
+    }
 }
