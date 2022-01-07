@@ -53,6 +53,7 @@ public class ModelGame {
         return contarDados(dadosActivos);
     }
     public void reOrganizarVector(Dado[] vectorDados){
+        int dadosEnVector=contarDados(vectorDados);
         for (int i=0;i<10;i++){
             if(vectorDados[i]==null&&i<9){
                 vectorDados[i]=vectorDados[i+1];
@@ -60,6 +61,7 @@ public class ModelGame {
                 vectorDados[i]=null;
             }
         }
+        vectorDados[dadosEnVector]=null;
     }
     public void activarDado(int dadoActivar,int dadoEscogido){
         Dado dadoT=new Dado();

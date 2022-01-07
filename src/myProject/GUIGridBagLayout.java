@@ -246,9 +246,7 @@ public class GUIGridBagLayout extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            zonaActivos= modelGame.getCaraDado("dadosActivos");
-            zonaUtilizados= modelGame.getCaraDado("dadosUtilizados");
-            zonaInactivos= modelGame.getCaraDado("dadosInactivos");
+
             if (e.getSource() == cambiar) {
                 if(flag==0) {
                     cambiar.setText("cambiar");
@@ -306,9 +304,6 @@ public class GUIGridBagLayout extends JFrame {
 
                 } else {
                         modelGame.activarDado(dadoPrincipal, 10);
-                        panelActivos.removeAll();
-                        panelInactivos.removeAll();
-                        panelUtilizados.removeAll();
                         actualizarInterfaz();
                 }
 
@@ -454,6 +449,9 @@ public class GUIGridBagLayout extends JFrame {
             }
        }
        private void actualizarInterfaz(){
+           panelActivos.removeAll();
+           panelInactivos.removeAll();
+           panelUtilizados.removeAll();
 
            zonaActivos= modelGame.getCaraDado("dadosActivos");
            zonaUtilizados= modelGame.getCaraDado("dadosUtilizados");
@@ -461,6 +459,7 @@ public class GUIGridBagLayout extends JFrame {
 
            for (int i=0;i<10;i++){
                if(zonaActivos[i]!=null){
+                   System.out.println("posicion "+ i+" "+zonaActivos[i]);
                    if(zonaActivos[i]=="meeple"){
                        imageDados = new ImageIcon(getClass().getResource("/resources/meeple.png"));
                        addLabel(getJLabel(controlLabel++),"dadosActivos") ;
@@ -553,7 +552,7 @@ public class GUIGridBagLayout extends JFrame {
            GBCInterno.weighty = 50.0;
            GBCInterno.anchor = GridBagConstraints.LAST_LINE_END;
            panelInteraccion.add(cambiar, GBCInterno);
-
+           actualizarInterfaz();
        }
     }
 }
