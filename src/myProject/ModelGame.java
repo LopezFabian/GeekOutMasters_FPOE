@@ -7,7 +7,7 @@ import javax.swing.*;
  *
  * @author Fabian Lopez
  * @author Juan Jose Viafara
- * @version V.1.0.0 date 03/01/2022
+ * @version V.1.1.2 date 07/01/2022
  */
 
 public class ModelGame {
