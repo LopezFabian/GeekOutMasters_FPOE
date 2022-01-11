@@ -7,7 +7,7 @@ import javax.swing.*;
  *
  * @author Fabian Lopez
  * @author Juan Jose Viafara
- * @version V.1.0.0 date 03/01/2022
+ * @version V.1.1.2 date 07/01/2022
  */
 
 public class ModelGame {
@@ -53,6 +53,7 @@ public class ModelGame {
         return contarDados(dadosActivos);
     }
     public void reOrganizarVector(Dado[] vectorDados){
+        int dadosEnVector=contarDados(vectorDados);
         for (int i=0;i<10;i++){
             if(vectorDados[i]==null&&i<9){
                 vectorDados[i]=vectorDados[i+1];
@@ -60,6 +61,7 @@ public class ModelGame {
                 vectorDados[i]=null;
             }
         }
+        vectorDados[dadosEnVector]=null;
     }
     public void activarDado(int dadoActivar,int dadoEscogido){
         Dado dadoT=new Dado();
