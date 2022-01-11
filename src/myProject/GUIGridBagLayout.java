@@ -27,10 +27,10 @@ public class GUIGridBagLayout extends JFrame {
             + "\nEste juego lo jugará un único jugador y ganará si logra sumar 30 puntos en 5 rondas consecutivas de juego.";
 
     private Header headerProject;
-    private JLabel dado1, dado2, dado3, dado4, dado5, dado6, dado7,dado8, dado9, dado10;
+    private JLabel dado1, dado2, dado3, dado4, dado5, dado6, dado7,dado8, dado9, dado10, puntos;
     private JButton activar, cambiar, ayuda, escoger;
-    private JPanel panelRondas, panelActivos, panelInactivos, panelUtilizados, panelPuntuacion, panelSeleccion, panelInteraccion;
-    private ImageIcon imageDados;
+    private JPanel panelRondas, panelActivos, panelInactivos, panelUtilizados, panelPuntuacion, panelSeleccion, panelInteraccion, panelPuntos;
+    private ImageIcon imageDados, imagePuntuacion;
     private JTextArea seleccionDado, tarjetaPuntuacion;
     private Escucha escucha;
     private ModelGame modelGame;
@@ -71,6 +71,7 @@ public class GUIGridBagLayout extends JFrame {
         modelGame = new ModelGame();
         //Set up JComponents
         seleccionDado = new JTextArea(2, 4);
+        tarjetaPuntuacion = new JTextArea( 2, 5 );
 
 
         headerProject = new Header("Mesa de Juego Geek Out Masters", Color.BLACK);
@@ -100,6 +101,9 @@ public class GUIGridBagLayout extends JFrame {
         dado8 = new JLabel(imageDados);
         dado9 = new JLabel(imageDados);
         dado10 = new JLabel(imageDados);
+
+        imagePuntuacion = new ImageIcon(getClass().getResource("/resources/ImagePuntuacion.jpeg"));
+        puntos = new JLabel(imagePuntuacion);
 
 
         panelRondas = new JPanel();
@@ -155,7 +159,7 @@ public class GUIGridBagLayout extends JFrame {
         add(panelUtilizados,constrains);
 
         panelPuntuacion = new JPanel();
-        panelPuntuacion.setPreferredSize(new Dimension(330, 210));
+        panelPuntuacion.setPreferredSize(new Dimension(330, 230));
         panelPuntuacion.setBorder(BorderFactory.createTitledBorder(" Puntuacion "));
         constrains.gridx = 1;
         constrains.gridy = 5;
@@ -163,6 +167,16 @@ public class GUIGridBagLayout extends JFrame {
         constrains.fill = GridBagConstraints.BOTH;
         constrains.anchor = GridBagConstraints.CENTER;
         add(panelPuntuacion,constrains);
+
+        panelPuntos = new JPanel();
+        panelPuntos.setPreferredSize(new Dimension(330, 26));
+        panelPuntos.setBackground(Color.lightGray);
+        panelPuntuacion.add(panelPuntos, BorderLayout.NORTH);
+        tarjetaPuntuacion.setBackground(null);
+        panelPuntos.add(tarjetaPuntuacion);
+
+        panelPuntuacion.add(puntos, BorderLayout.SOUTH);
+
 
         panelInteraccion = new JPanel(new GridBagLayout());
         panelInteraccion.setPreferredSize(new Dimension(300, 110));
@@ -201,7 +215,7 @@ public class GUIGridBagLayout extends JFrame {
         activar.addActionListener(escucha);
         GBCInterno.gridx = 1;
         GBCInterno.gridy = 1;
-        GBCInterno.ipadx = 8;
+        GBCInterno.ipadx = 6;
         GBCInterno.gridheight = 1;
         GBCInterno.gridwidth = 1;
         GBCInterno.weighty = 50.0;
@@ -217,7 +231,6 @@ public class GUIGridBagLayout extends JFrame {
         GBCInterno.ipadx = 8;
         GBCInterno.gridheight = 1;
         GBCInterno.gridwidth = 1;
-        GBCInterno.ipadx = 9;
         GBCInterno.weighty = 50.0;
         GBCInterno.fill = GridBagConstraints.NONE;
         GBCInterno.anchor = GridBagConstraints.FIRST_LINE_END;
@@ -248,6 +261,7 @@ public class GUIGridBagLayout extends JFrame {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == cambiar) {
                 if(flag==0) {
+                    tarjetaPuntuacion.setText("Puntuacion de la ronda: "+ modelGame.getPuntuacionRonda());
                     cambiar.setText("cambiar");
                     GridBagConstraints GBCInterno = new GridBagConstraints();
                     GBCInterno.gridx = 1;
@@ -475,7 +489,7 @@ public class GUIGridBagLayout extends JFrame {
            panelInactivos.removeAll();
            panelUtilizados.removeAll();
            actualizarInformacion ();
-
+           tarjetaPuntuacion.setText("Puntuacion de la ronda: "+ modelGame.getPuntuacionRonda());
            for (int i=0;i<10;i++){
                if(zonaActivos[i]!=null){
                    if(zonaActivos[i]=="meeple"){
@@ -566,7 +580,7 @@ public class GUIGridBagLayout extends JFrame {
            GridBagConstraints GBCInterno = new GridBagConstraints();
            GBCInterno.gridx = 1;
            GBCInterno.gridy = 0;
-           GBCInterno.ipadx = 9;
+           GBCInterno.ipadx = 10;
            GBCInterno.weighty = 50.0;
            GBCInterno.anchor = GridBagConstraints.LAST_LINE_END;
            panelInteraccion.add(cambiar, GBCInterno);

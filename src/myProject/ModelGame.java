@@ -123,5 +123,28 @@ public class ModelGame {
         }
         return vectorRetornar;
     }
+    public int getPuntuacionRonda(){
+        int numeroDe42 = 0;
+        for(int i=0; i<10;i++){
+            if (dadosActivos[i] != null){
+                if (dadosActivos[i].getCara() == "42"){
+                    numeroDe42++;
+                }
+            }
+        }
+        switch (numeroDe42){
+            case 1 -> puntuacionRonda = 1;
+            case 2 -> puntuacionRonda = 3;
+            case 3 -> puntuacionRonda = 6;
+            case 4 -> puntuacionRonda = 10;
+            case 5 -> puntuacionRonda = 15;
+            case 6 -> puntuacionRonda = 21;
+            case 7 -> puntuacionRonda = 28;
+            case 8 -> puntuacionRonda = 36;
+            case 9 -> puntuacionRonda = 45;
+            case 10 -> puntuacionRonda = 55;
+        }
+        return puntuacionRonda;
+    }
 
 }
