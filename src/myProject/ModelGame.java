@@ -92,11 +92,6 @@ public class ModelGame {
                 dadosInactivos[contarDados(dadosInactivos)-1]=null;
             }
 
-        }else if(dadosActivos[dadoActivar].getCara()=="dragon"){
-            if (contarDados(dadosActivos)==1){
-                puntuacionJuego=0;
-                puntuacionRonda=0;
-            }
         }
         dadosActivos[dadoActivar]=null;
         reOrganizarVector(dadosActivos);
@@ -146,5 +141,61 @@ public class ModelGame {
         }
         return puntuacionRonda;
     }
+    public boolean soloHay(String caraDado){
+        boolean soloHay = true;
+        for(int i=0; i<10;i++){
+            if (dadosActivos[i] != null){
+                if (dadosActivos[i].getCara() != caraDado){
+                    soloHay = false;
+                    break;
+                }
+            }
+        }
 
+        return soloHay;
+    }
+    public void finalizarRonda(){
+        if (contarDadosActivos() == 0){
+            System.out.println("No hay nadie");
+            cambiarRonda();
+        }
+        else if (contarDadosActivos() == 1){
+            if (dadosActivos[0].getCara().equals("meeple")){
+                System.out.println("Entre soy meeple");
+                cambiarRonda();
+            }
+            else if(dadosActivos[0].getCara().equals("superheroe")){
+                System.out.println("Entre soy superheroe");
+                cambiarRonda();
+            }
+            else if(dadosActivos[0].getCara().equals("cohete")){
+                System.out.println("Entre soy cohete");
+                cambiarRonda();
+            }
+        }
+        else if (soloHay("42")){
+            cambiarRonda();
+        }
+        else if (soloHay("dragon")){
+            cambiarRonda();
+            puntuacionJuego=0;
+        }
+    }
+    private void cambiarRonda(){
+        puntuacionJuego += puntuacionRonda;
+        puntuacionRonda = 0;
+        if (numeroRonda < 5){
+            numeroRonda++;
+        }
+        else if(numeroRonda == 5 ){
+            numeroRonda = 1;
+            puntuacionJuego = 0;
+        }
+    }
+    public int getPuntuacionJuego(){
+        return puntuacionJuego;
+    }
+    public int getNumeroRonda(){
+        return numeroRonda;
+    }
 }

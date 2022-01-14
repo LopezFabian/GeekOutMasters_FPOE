@@ -31,7 +31,7 @@ public class GUIGridBagLayout extends JFrame {
     private JButton activar, cambiar, ayuda, escoger;
     private JPanel panelRondas, panelActivos, panelInactivos, panelUtilizados, panelPuntuacion, panelSeleccion, panelInteraccion, panelPuntos;
     private ImageIcon imageDados, imagePuntuacion;
-    private JTextArea seleccionDado, tarjetaPuntuacion;
+    private JTextArea seleccionDado, tarjetaPuntuacion, tarjetaRonda;
     private Escucha escucha;
     private ModelGame modelGame;
     private int dadoSeleccionado,flag,controlLabel,dadoSecundario,dadoPrincipal;
@@ -72,6 +72,7 @@ public class GUIGridBagLayout extends JFrame {
         //Set up JComponents
         seleccionDado = new JTextArea(2, 4);
         tarjetaPuntuacion = new JTextArea( 2, 5 );
+        tarjetaRonda = new JTextArea(1, 5);
 
 
         headerProject = new Header("Mesa de Juego Geek Out Masters", Color.BLACK);
@@ -108,13 +109,15 @@ public class GUIGridBagLayout extends JFrame {
 
         panelRondas = new JPanel();
         panelRondas.setPreferredSize(new Dimension(200, 26));
-        panelRondas.setBackground(Color.BLACK);
+        panelRondas.setBackground(Color.lightGray);
         constrains.gridx = 0;
         constrains.gridy = 1;
         constrains.gridwidth = 1;
-        constrains.fill = GridBagConstraints.NONE;
-        constrains.anchor = GridBagConstraints.CENTER;
+        constrains.fill = GridBagConstraints.HORIZONTAL;
+        constrains.anchor = GridBagConstraints.PAGE_END;
         this.add(panelRondas, constrains);
+        panelRondas.add(tarjetaRonda);
+        tarjetaRonda.setBackground(null);
 
         panelActivos = new JPanel();
         panelActivos.setPreferredSize(new Dimension(400, 450));
@@ -159,7 +162,7 @@ public class GUIGridBagLayout extends JFrame {
         add(panelUtilizados,constrains);
 
         panelPuntuacion = new JPanel();
-        panelPuntuacion.setPreferredSize(new Dimension(330, 230));
+        panelPuntuacion.setPreferredSize(new Dimension(330, 250));
         panelPuntuacion.setBorder(BorderFactory.createTitledBorder(" Puntuacion "));
         constrains.gridx = 1;
         constrains.gridy = 5;
@@ -169,7 +172,7 @@ public class GUIGridBagLayout extends JFrame {
         add(panelPuntuacion,constrains);
 
         panelPuntos = new JPanel();
-        panelPuntos.setPreferredSize(new Dimension(330, 26));
+        panelPuntos.setPreferredSize(new Dimension(330, 30));
         panelPuntos.setBackground(Color.lightGray);
         panelPuntuacion.add(panelPuntos, BorderLayout.NORTH);
         tarjetaPuntuacion.setBackground(null);
@@ -489,7 +492,8 @@ public class GUIGridBagLayout extends JFrame {
            panelInactivos.removeAll();
            panelUtilizados.removeAll();
            actualizarInformacion ();
-           tarjetaPuntuacion.setText("Puntuacion de la ronda: "+ modelGame.getPuntuacionRonda());
+           tarjetaPuntuacion.setText("Puntuacion de la ronda: "+ modelGame.getPuntuacionRonda() +"            Puntuacion acumulada: "+ modelGame.getPuntuacionJuego());
+           tarjetaRonda.setText("Ronda: "+ modelGame.getNumeroRonda());
            for (int i=0;i<10;i++){
                if(zonaActivos[i]!=null){
                    if(zonaActivos[i]=="meeple"){
