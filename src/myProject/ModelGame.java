@@ -79,8 +79,7 @@ public class ModelGame {
                dadosActivos[dadoEscogido]=null;
                reOrganizarVector(dadosActivos);
 
-               revisar(dadosActivos);
-               revisar(dadosInactivos);
+
            }
            else if(dadosActivos[dadoActivar].getCara()=="superheroe"){
                dadosActivos[dadoEscogido].setCara(dadosActivos[dadoEscogido].getCaraContraria());
@@ -91,17 +90,9 @@ public class ModelGame {
                 dadosActivos[contarDados(dadosActivos)]=new Dado();
                 dadosInactivos[contarDados(dadosInactivos)-1]=null;
             }
-
         }
         dadosActivos[dadoActivar]=null;
         reOrganizarVector(dadosActivos);
-    }
-    public void revisar(Dado vectorRe[]){
-        for (int i=0;i<10;i++) {
-            if (vectorRe[i] != null) {
-                System.out.println("posicion "+i + ","+ vectorRe[i].getCara() );
-            }
-        }
     }
     public String[] getCaraDado(String nombreVector){
         String vectorRetornar[]= new String[10];
@@ -120,6 +111,7 @@ public class ModelGame {
     }
     public int getPuntuacionRonda(){
         int numeroDe42 = 0;
+        puntuacionRonda = 0;
         for(int i=0; i<10;i++){
             if (dadosActivos[i] != null){
                 if (dadosActivos[i].getCara() == "42"){
@@ -154,7 +146,7 @@ public class ModelGame {
 
         return soloHay;
     }
-    public void finalizarRonda(){
+    public void actualizarRonda(){
         if (contarDadosActivos() == 0){
             System.out.println("No hay nadie");
             cambiarRonda();
@@ -191,6 +183,7 @@ public class ModelGame {
             numeroRonda = 1;
             puntuacionJuego = 0;
         }
+        reiniciarJuego();
     }
     public int getPuntuacionJuego(){
         return puntuacionJuego;
@@ -198,4 +191,40 @@ public class ModelGame {
     public int getNumeroRonda(){
         return numeroRonda;
     }
+    private void reiniciarJuego(){
+        for (int i=0; i<10;i++){
+            dadosActivos[i] = null;
+            dadosInactivos[i] = null;
+            dadosUtilizados[i] = null;
+            if(i<7){
+                dadosActivos[i]= new Dado();
+                if (i<3){
+                    dadosInactivos[i]= new Dado();
+                }else{
+                    dadosInactivos[i]=null;
+                }
+            }else{
+                dadosActivos[i]= null;
+                dadosInactivos[i]=null;
+            }
+        }
+    }
+    public void revisar(){
+        for (int i=0; i<10;i++){
+            if (dadosActivos[i] != null){
+                System.out.println("Posicion, "+ i +dadosActivos[i].getCara());
+            }
+        }
+    }
+    public boolean hayMasDadosAccion(){
+        boolean dadosAccion = false;
+        for (int i=0; i<10;i++){
+            if (dadosActivos[i].getCara() != "42" && dadosActivos[i].getCara() != "dragon"){
+                dadosAccion = true;
+                break;
+            }
+        }
+        return  dadosAccion;
+    }
+
 }

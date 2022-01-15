@@ -70,7 +70,7 @@ public class GUIGridBagLayout extends JFrame {
         escucha = new Escucha();
         modelGame = new ModelGame();
         //Set up JComponents
-        seleccionDado = new JTextArea(2, 4);
+        seleccionDado = new JTextArea(2, 6);
         tarjetaPuntuacion = new JTextArea( 2, 5 );
         tarjetaRonda = new JTextArea(1, 5);
 
@@ -162,7 +162,7 @@ public class GUIGridBagLayout extends JFrame {
         add(panelUtilizados,constrains);
 
         panelPuntuacion = new JPanel();
-        panelPuntuacion.setPreferredSize(new Dimension(330, 250));
+        panelPuntuacion.setPreferredSize(new Dimension(330, 242));
         panelPuntuacion.setBorder(BorderFactory.createTitledBorder(" Puntuacion "));
         constrains.gridx = 1;
         constrains.gridy = 5;
@@ -172,7 +172,7 @@ public class GUIGridBagLayout extends JFrame {
         add(panelPuntuacion,constrains);
 
         panelPuntos = new JPanel();
-        panelPuntos.setPreferredSize(new Dimension(330, 30));
+        panelPuntos.setPreferredSize(new Dimension(330, 26));
         panelPuntos.setBackground(Color.lightGray);
         panelPuntuacion.add(panelPuntos, BorderLayout.NORTH);
         tarjetaPuntuacion.setBackground(null);
@@ -194,7 +194,7 @@ public class GUIGridBagLayout extends JFrame {
 
 
         panelSeleccion = new JPanel();
-        panelSeleccion.setPreferredSize(new Dimension(250, 52));
+        panelSeleccion.setPreferredSize(new Dimension(260, 52));
         panelSeleccion.setBackground(Color.LIGHT_GRAY);
         GBCInterno.gridx =0;
         GBCInterno.gridy = 0;
@@ -264,7 +264,6 @@ public class GUIGridBagLayout extends JFrame {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == cambiar) {
                 if(flag==0) {
-                    tarjetaPuntuacion.setText("Puntuacion de la ronda: "+ modelGame.getPuntuacionRonda());
                     cambiar.setText("cambiar");
                     GridBagConstraints GBCInterno = new GridBagConstraints();
                     GBCInterno.gridx = 1;
@@ -313,17 +312,52 @@ public class GUIGridBagLayout extends JFrame {
                 } else if (zonaActivos[dadoPrincipal].equals("superheroe")) {
                         escogerDadoSecundario();
 
-                } else {
+                }
+                else if (zonaActivos[dadoPrincipal].equals("corazon")){
                         modelGame.activarDado(dadoPrincipal, 10);
                         actualizarInformacion();
-                        seleccionDado.setText("El dado seleccionado es"+"\nel dado numero ("+(dadoSeleccionado+1)+") "+zonaActivos[dadoSeleccionado]);
-                        dadoSeleccionado=dadoSeleccionado+1;
-                        if(dadoSeleccionado==modelGame.contarDadosActivos()){
-                        dadoSeleccionado=0;
+                        if (modelGame.contarDadosActivos() == 0){
+                            modelGame.actualizarRonda();
+                        }else if (dadoSeleccionado<modelGame.contarDadosActivos()){
+                            seleccionDado.setText("El dado seleccionado es"+"\nel dado numero ("+(dadoSeleccionado+1)+") "+zonaActivos[dadoSeleccionado]);
+                            dadoSeleccionado=dadoSeleccionado+1;
+                        }
+                        else if(dadoSeleccionado==modelGame.contarDadosActivos()){
+                            seleccionDado.setText("El dado seleccionado es"+"\nel dado numero ("+(1)+") "+zonaActivos[0]);
+                            dadoSeleccionado=1;
                         }
                         actualizarInterfaz();
+                        modelGame.actualizarRonda();
                 }
+                else if (zonaActivos[dadoPrincipal].equals("dragon")){
+                    if (modelGame.hayMasDadosAccion()){
+                        actualizarInformacion();
+                        if (dadoSeleccionado<modelGame.contarDadosActivos()){
+                            seleccionDado.setText("Debes eleccionar otro dado primero"+"\n"+"El dado seleccionado es"+"\nel dado numero ("+(dadoSeleccionado+1)+") "+zonaActivos[dadoSeleccionado]);
+                            dadoSeleccionado=dadoSeleccionado+1;
+                        }
+                        else if(dadoSeleccionado>=modelGame.contarDadosActivos()){
+                            seleccionDado.setText("Debes eleccionar otro dado primero"+"\n"+"El dado seleccionado es"+"\nel dado numero ("+(1)+") "+zonaActivos[0]);
+                            dadoSeleccionado=1;
+                        }
+                    }else {
+                        modelGame.activarDado(dadoPrincipal, 10);
+                        actualizarInformacion();
+                        if (modelGame.contarDadosActivos() == 0){
+                            modelGame.actualizarRonda();
+                        }else if (dadoSeleccionado<modelGame.contarDadosActivos()){
+                            seleccionDado.setText("El dado seleccionado es"+"\nel dado numero ("+(dadoSeleccionado+1)+") "+zonaActivos[dadoSeleccionado]);
+                            dadoSeleccionado=dadoSeleccionado+1;
+                        }
+                        else if(dadoSeleccionado==modelGame.contarDadosActivos()){
+                            seleccionDado.setText("El dado seleccionado es"+"\nel dado numero ("+(1)+") "+zonaActivos[0]);
+                            dadoSeleccionado=1;
+                        }
+                        actualizarInterfaz();
 
+                    }
+                    modelGame.actualizarRonda();
+                }
             }
             else if (e.getSource()== escoger){
                 actualizarInformacion();
@@ -352,6 +386,7 @@ public class GUIGridBagLayout extends JFrame {
 
                     modelGame.activarDado(dadoPrincipal,dadoSecundario);
                     actualizarInterfaz();
+                    modelGame.actualizarRonda();
                 }
                 else{
                     seleccionDado.setText("Debes escoger un dado diferente"+"\n"+"El dado seleccionado es"+"\nel dado numero ("+(dadoSeleccionado+1)+") "+zonaActivos[dadoSeleccionado]);
@@ -494,6 +529,7 @@ public class GUIGridBagLayout extends JFrame {
            actualizarInformacion ();
            tarjetaPuntuacion.setText("Puntuacion de la ronda: "+ modelGame.getPuntuacionRonda() +"            Puntuacion acumulada: "+ modelGame.getPuntuacionJuego());
            tarjetaRonda.setText("Ronda: "+ modelGame.getNumeroRonda());
+           modelGame.actualizarRonda();
            for (int i=0;i<10;i++){
                if(zonaActivos[i]!=null){
                    if(zonaActivos[i]=="meeple"){
