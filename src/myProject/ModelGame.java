@@ -7,7 +7,7 @@ import javax.swing.*;
  *
  * @author Fabian Lopez
  * @author Juan Jose Viafara
- * @version V.1.1.2 date 07/01/2022
+ * @version V.1.2.0 date 16/01/2022
  */
 
 public class ModelGame {
@@ -56,7 +56,11 @@ public class ModelGame {
         int dadosEnVector=contarDados(vectorDados);
         for (int i=0;i<10;i++){
             if(vectorDados[i]==null&&i<9){
-                vectorDados[i]=vectorDados[i+1];
+                if (vectorDados[i+1] != null){
+                    vectorDados[i] = new Dado();
+                    vectorDados[i].setCara(vectorDados[i+1].getCara());
+                    vectorDados[i+1] = null;
+                }
             }else if(i==9){
                 vectorDados[i]=null;
             }
@@ -64,35 +68,44 @@ public class ModelGame {
         vectorDados[dadosEnVector]=null;
     }
     public void activarDado(int dadoActivar,int dadoEscogido){
-        Dado dadoT=new Dado();
-        dadoT.setCara(dadosActivos[dadoActivar].getCara());
-        dadosUtilizados[contarDados(dadosUtilizados)]= dadoT;
+        int dadoAC = contarDados(dadosUtilizados);
+        dadosUtilizados[dadoAC]= new Dado();
+        dadosUtilizados[dadoAC].setCara(dadosActivos[dadoActivar].getCara());
 
        if (dadoEscogido<10){
            if(dadosActivos[dadoActivar].getCara()=="meeple"){
                dadosActivos[dadoEscogido] = new Dado();
            }
            else if(dadosActivos[dadoActivar].getCara()=="cohete"){
-               Dado dadoR=new Dado();
-               dadoR.setCara(dadosActivos[dadoEscogido].getCara());
-               dadosInactivos[contarDados(dadosInactivos)]= dadoR;
+               int dadoAC2 = contarDados(dadosInactivos);
+               dadosInactivos[dadoAC2]= new Dado();
+               dadosInactivos[dadoAC2].setCara(dadosActivos[dadoEscogido].getCara());
                dadosActivos[dadoEscogido]=null;
                reOrganizarVector(dadosActivos);
-
-
+               if (dadoActivar > dadoEscogido){
+                   dadoActivar = dadoActivar-1;
+                   if (dadoActivar == -1){
+                       dadoActivar = contarDadosActivos()-1;
+                   }
+               }
            }
            else if(dadosActivos[dadoActivar].getCara()=="superheroe"){
                dadosActivos[dadoEscogido].setCara(dadosActivos[dadoEscogido].getCaraContraria());
+               revisar();
            }
        }
-        if(dadosActivos[dadoActivar].getCara()=="corazon"){
+        else if(dadosActivos[dadoActivar].getCara()=="corazon"){
             if (dadosInactivos[0]!=null){
                 dadosActivos[contarDados(dadosActivos)]=new Dado();
                 dadosInactivos[contarDados(dadosInactivos)-1]=null;
             }
+        }else if(dadosActivos[dadoActivar].getCara()=="dragon"){
+            puntuacionRonda = 0;
+            puntuacionJuego = 0;
         }
         dadosActivos[dadoActivar]=null;
         reOrganizarVector(dadosActivos);
+        actualizarRonda();
     }
     public String[] getCaraDado(String nombreVector){
         String vectorRetornar[]= new String[10];
@@ -218,10 +231,12 @@ public class ModelGame {
     }
     public boolean hayMasDadosAccion(){
         boolean dadosAccion = false;
-        for (int i=0; i<10;i++){
-            if (dadosActivos[i].getCara() != "42" && dadosActivos[i].getCara() != "dragon"){
-                dadosAccion = true;
-                break;
+        for (int i=0; i<10;i++) {
+            if (dadosActivos[i] != null) {
+                if (dadosActivos[i].getCara() != "42" && dadosActivos[i].getCara() != "dragon") {
+                    dadosAccion = true;
+                    break;
+                }
             }
         }
         return  dadosAccion;

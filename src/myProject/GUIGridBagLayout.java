@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 /**
  * This class is used for ...
  * @autor F
- * @version v.1.1.2 date:06/01/2022
+ * @version v.1.2.0 date:16/01/2022
  */
 public class GUIGridBagLayout extends JFrame {
     private static final String MENSAJE_INICIO = "Bienvenido a Geek Out Masters \n"
@@ -278,22 +278,14 @@ public class GUIGridBagLayout extends JFrame {
                     panelSeleccion.setVisible(true);
                     activar.setVisible(true);
                     flag=1;
-
-                    actualizarInterfaz();
-                }
-                if (dadoSeleccionado<modelGame.contarDadosActivos()){
-                    seleccionDado.setText("El dado seleccionado es"+"\nel dado numero ("+(dadoSeleccionado+1)+") "+zonaActivos[dadoSeleccionado]);
                     seleccionDado.setBackground(null);
                     seleccionDado.setEditable(false);
                     seleccionDado.setFont(new Font(Font.DIALOG,Font.BOLD+Font.ITALIC,12));
                     panelSeleccion.add(seleccionDado);
-                    dadoSeleccionado=dadoSeleccionado+1;
+
+                    actualizarInterfaz();
                 }
-                else if(dadoSeleccionado>=modelGame.contarDadosActivos()){
-                    dadoSeleccionado=0;
-                    seleccionDado.setText("El dado seleccionado es"+"\nel dado numero ("+(dadoSeleccionado+1)+") "+zonaActivos[dadoSeleccionado]);
-                    dadoSeleccionado=dadoSeleccionado+1;
-                }
+                cambiarDado();
             }
             else if (e.getSource() == ayuda) {
                 JOptionPane.showMessageDialog(null, MENSAJE_INICIO);
@@ -315,68 +307,29 @@ public class GUIGridBagLayout extends JFrame {
                 }
                 else if (zonaActivos[dadoPrincipal].equals("corazon")){
                         modelGame.activarDado(dadoPrincipal, 10);
-                        actualizarInformacion();
-                        if (modelGame.contarDadosActivos() == 0){
-                            modelGame.actualizarRonda();
-                        }else if (dadoSeleccionado<modelGame.contarDadosActivos()){
-                            seleccionDado.setText("El dado seleccionado es"+"\nel dado numero ("+(dadoSeleccionado+1)+") "+zonaActivos[dadoSeleccionado]);
-                            dadoSeleccionado=dadoSeleccionado+1;
-                        }
-                        else if(dadoSeleccionado==modelGame.contarDadosActivos()){
-                            seleccionDado.setText("El dado seleccionado es"+"\nel dado numero ("+(1)+") "+zonaActivos[0]);
-                            dadoSeleccionado=1;
-                        }
+                        cambiarDado();
                         actualizarInterfaz();
-                        modelGame.actualizarRonda();
                 }
                 else if (zonaActivos[dadoPrincipal].equals("dragon")){
                     if (modelGame.hayMasDadosAccion()){
-                        actualizarInformacion();
-                        if (dadoSeleccionado<modelGame.contarDadosActivos()){
-                            seleccionDado.setText("Debes eleccionar otro dado primero"+"\n"+"El dado seleccionado es"+"\nel dado numero ("+(dadoSeleccionado+1)+") "+zonaActivos[dadoSeleccionado]);
-                            dadoSeleccionado=dadoSeleccionado+1;
-                        }
-                        else if(dadoSeleccionado>=modelGame.contarDadosActivos()){
-                            seleccionDado.setText("Debes eleccionar otro dado primero"+"\n"+"El dado seleccionado es"+"\nel dado numero ("+(1)+") "+zonaActivos[0]);
-                            dadoSeleccionado=1;
-                        }
+                        cambiarDado();
                     }else {
                         modelGame.activarDado(dadoPrincipal, 10);
-                        actualizarInformacion();
-                        if (modelGame.contarDadosActivos() == 0){
-                            modelGame.actualizarRonda();
-                        }else if (dadoSeleccionado<modelGame.contarDadosActivos()){
-                            seleccionDado.setText("El dado seleccionado es"+"\nel dado numero ("+(dadoSeleccionado+1)+") "+zonaActivos[dadoSeleccionado]);
-                            dadoSeleccionado=dadoSeleccionado+1;
-                        }
-                        else if(dadoSeleccionado==modelGame.contarDadosActivos()){
-                            seleccionDado.setText("El dado seleccionado es"+"\nel dado numero ("+(1)+") "+zonaActivos[0]);
-                            dadoSeleccionado=1;
-                        }
+                        cambiarDado();
                         actualizarInterfaz();
 
                     }
-                    modelGame.actualizarRonda();
                 }
             }
             else if (e.getSource()== escoger){
                 actualizarInformacion();
                 if(dadoPrincipal!=dadoSeleccionado-1){
                     dadoSecundario=dadoSeleccionado-1;
-                    if (dadoSecundario==-1){
-                        dadoSecundario=modelGame.contarDadosActivos()-1;
-                    }
+
                     activar.setVisible(true);
                     escoger.setVisible(false);
 
-                    if (dadoSeleccionado<modelGame.contarDadosActivos()){
-                        seleccionDado.setText("El dado seleccionado es"+"\nel dado numero ("+(dadoSeleccionado+1)+") "+zonaActivos[dadoSeleccionado]);
-                        dadoSeleccionado=dadoSeleccionado+1;
-                    }
-                    else if(dadoSeleccionado>=modelGame.contarDadosActivos()){
-                        seleccionDado.setText("El dado seleccionado es"+"\nel dado numero ("+(1)+") "+zonaActivos[0]);
-                        dadoSeleccionado=1;
-                    }
+
                     GridBagConstraints GBCInterno = new GridBagConstraints();
                     GBCInterno.gridx = 1;
                     GBCInterno.gridy = 0;
@@ -385,15 +338,11 @@ public class GUIGridBagLayout extends JFrame {
                     panelInteraccion.add(cambiar, GBCInterno);
 
                     modelGame.activarDado(dadoPrincipal,dadoSecundario);
+                    cambiarDado();
                     actualizarInterfaz();
-                    modelGame.actualizarRonda();
                 }
                 else{
-                    seleccionDado.setText("Debes escoger un dado diferente"+"\n"+"El dado seleccionado es"+"\nel dado numero ("+(dadoSeleccionado+1)+") "+zonaActivos[dadoSeleccionado]);
-                    dadoSeleccionado=dadoSeleccionado+1;
-                    if (dadoSeleccionado==modelGame.contarDadosActivos()){
-                        dadoSeleccionado=0;
-                    }
+                    cambiarDado();
                 }
                 actualizarInformacion();
             }
@@ -529,7 +478,6 @@ public class GUIGridBagLayout extends JFrame {
            actualizarInformacion ();
            tarjetaPuntuacion.setText("Puntuacion de la ronda: "+ modelGame.getPuntuacionRonda() +"            Puntuacion acumulada: "+ modelGame.getPuntuacionJuego());
            tarjetaRonda.setText("Ronda: "+ modelGame.getNumeroRonda());
-           modelGame.actualizarRonda();
            for (int i=0;i<10;i++){
                if(zonaActivos[i]!=null){
                    if(zonaActivos[i]=="meeple"){
@@ -604,15 +552,7 @@ public class GUIGridBagLayout extends JFrame {
 
        }
        private void escogerDadoSecundario(){
-            actualizarInformacion();
-            if (dadoSeleccionado<modelGame.contarDadosActivos()){
-                   seleccionDado.setText("Ahora debes escoger un segundo dado"+"\n"+"El dado seleccionado es"+"\nel dado numero ("+(dadoSeleccionado+1)+") "+zonaActivos[dadoSeleccionado]);
-                   dadoSeleccionado=dadoSeleccionado+1;
-            }
-            else if(dadoSeleccionado>=modelGame.contarDadosActivos()){
-                   seleccionDado.setText("Ahora debes escoger un segundo dado"+"\n"+"El dado seleccionado es"+"\nel dado numero ("+(1)+") "+zonaActivos[0]);
-                   dadoSeleccionado=1;
-            }
+            cambiarDado();
 
            activar.setVisible(false);
            escoger.setVisible(true);
@@ -625,14 +565,29 @@ public class GUIGridBagLayout extends JFrame {
            GBCInterno.anchor = GridBagConstraints.LAST_LINE_END;
            panelInteraccion.add(cambiar, GBCInterno);
            actualizarInterfaz();
-           actualizarInformacion();
        }
        private void actualizarInformacion (){
            zonaActivos= modelGame.getCaraDado("dadosActivos");
            zonaUtilizados= modelGame.getCaraDado("dadosUtilizados");
            zonaInactivos= modelGame.getCaraDado("dadosInactivos");
        }
+       private void cambiarDado(){
+            actualizarInformacion();
+           if (modelGame.contarDadosActivos() == 0 || modelGame.soloHay("42")){
+               modelGame.actualizarRonda();
+
+           }
+           else if (dadoSeleccionado<modelGame.contarDadosActivos()){
+               seleccionDado.setText("El dado seleccionado es"+"\nel dado numero ("+(dadoSeleccionado+1)+") "+zonaActivos[dadoSeleccionado]);
+               dadoSeleccionado=dadoSeleccionado+1;
+           }
+           else if(dadoSeleccionado>=modelGame.contarDadosActivos()){
+               seleccionDado.setText("El dado seleccionado es"+"\nel dado numero ("+(1)+") "+zonaActivos[0]);
+               dadoSeleccionado=1;
+           }
+       }
     }
+
 }
 
 
