@@ -7,13 +7,12 @@ import javax.swing.*;
  *
  * @author Fabian Lopez
  * @author Juan Jose Viafara
- * @version V.1.2.0 date 16/01/2022
+ * @version V.1.3.0 date 23/01/2022
  */
 
 public class ModelGame {
     private Dado[] dadosActivos, dadosInactivos, dadosUtilizados;
     private int puntuacionRonda ,puntuacionJuego, cantidadDadosA, numeroRonda;
-
 
     /**
      * Class Constructor
@@ -24,27 +23,14 @@ public class ModelGame {
         dadosUtilizados= new Dado[10];
         cantidadDadosA=0;
         numeroRonda=1;
-         for (int i=0;i<10;i++){
-         if(i<7){
-         dadosActivos[i]= new Dado();
-         if (i<3){
-         dadosInactivos[i]= new Dado();
-         }else{
-         dadosInactivos[i]=null;
-         }
-         }else{
-         dadosActivos[i]= null;
-         dadosInactivos[i]=null;
-         }
-         }
+        iniciarRonda();
     }
 
     public int contarDados(Dado[] vectorDados){
         int cantidadDadosA=0;
         for (int i=0;i<10;i++){
-
             if(vectorDados[i]!=null){
-                cantidadDadosA= cantidadDadosA + 1;
+                cantidadDadosA++;
             }
         }
         return cantidadDadosA;
@@ -71,7 +57,6 @@ public class ModelGame {
         int dadoAC = contarDados(dadosUtilizados);
         dadosUtilizados[dadoAC]= new Dado();
         dadosUtilizados[dadoAC].setCara(dadosActivos[dadoActivar].getCara());
-
        if (dadoEscogido<10){
            if(dadosActivos[dadoActivar].getCara()=="meeple"){
                dadosActivos[dadoEscogido] = new Dado();
@@ -91,7 +76,6 @@ public class ModelGame {
            }
            else if(dadosActivos[dadoActivar].getCara()=="superheroe"){
                dadosActivos[dadoEscogido].setCara(dadosActivos[dadoEscogido].getCaraContraria());
-               revisar();
            }
        }
         else if(dadosActivos[dadoActivar].getCara()=="corazon"){
@@ -156,29 +140,27 @@ public class ModelGame {
                 }
             }
         }
-
         return soloHay;
     }
     public void actualizarRonda(){
         if (contarDadosActivos() == 0){
-            System.out.println("No hay nadie");
             cambiarRonda();
         }
         else if (contarDadosActivos() == 1){
-            if (dadosActivos[0].getCara().equals("meeple")){
-                System.out.println("Entre soy meeple");
+            if (dadosActivos[0].getCara().equals("corazon")&&contarDados(dadosInactivos)==0){
+                cambiarRonda();
+            }
+            else if (dadosActivos[0].getCara().equals("meeple")){
                 cambiarRonda();
             }
             else if(dadosActivos[0].getCara().equals("superheroe")){
-                System.out.println("Entre soy superheroe");
                 cambiarRonda();
             }
             else if(dadosActivos[0].getCara().equals("cohete")){
-                System.out.println("Entre soy cohete");
                 cambiarRonda();
             }
         }
-        else if (soloHay("42")){
+        if (soloHay("42")){
             cambiarRonda();
         }
         else if (soloHay("dragon")){
@@ -187,7 +169,8 @@ public class ModelGame {
         }
     }
     private void cambiarRonda(){
-        puntuacionJuego += puntuacionRonda;
+        int puntuacionRondaActual= getPuntuacionRonda();
+        puntuacionJuego+=puntuacionRondaActual;
         puntuacionRonda = 0;
         if (numeroRonda < 5){
             numeroRonda++;
@@ -196,15 +179,17 @@ public class ModelGame {
             numeroRonda = 1;
             puntuacionJuego = 0;
         }
-        reiniciarJuego();
+        iniciarRonda();
     }
     public int getPuntuacionJuego(){
-        return puntuacionJuego;
+            return puntuacionJuego;
+
     }
     public int getNumeroRonda(){
         return numeroRonda;
     }
-    private void reiniciarJuego(){
+    private void iniciarRonda(){
+
         for (int i=0; i<10;i++){
             dadosActivos[i] = null;
             dadosInactivos[i] = null;
@@ -219,13 +204,6 @@ public class ModelGame {
             }else{
                 dadosActivos[i]= null;
                 dadosInactivos[i]=null;
-            }
-        }
-    }
-    public void revisar(){
-        for (int i=0; i<10;i++){
-            if (dadosActivos[i] != null){
-                System.out.println("Posicion, "+ i +dadosActivos[i].getCara());
             }
         }
     }

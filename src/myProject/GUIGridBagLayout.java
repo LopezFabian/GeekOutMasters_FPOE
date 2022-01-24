@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 /**
  * This class is used for ...
  * @autor F
- * @version v.1.2.0 date:16/01/2022
+ * @version V.1.3.0 date 23/01/2022
  */
 public class GUIGridBagLayout extends JFrame {
     private static final String MENSAJE_INICIO = "Bienvenido a Geek Out Masters \n"
@@ -294,7 +294,10 @@ public class GUIGridBagLayout extends JFrame {
                 dadoPrincipal=dadoSeleccionado-1;
                 if (dadoPrincipal==-1){
                     dadoPrincipal=modelGame.contarDadosActivos()-1;
+                }else if(zonaActivos[dadoPrincipal]==null){
+                    cambiarDado();
                 }
+
                 if (zonaActivos[dadoPrincipal].equals("meeple")) {
                         escogerDadoSecundario();
 
@@ -317,7 +320,6 @@ public class GUIGridBagLayout extends JFrame {
                         modelGame.activarDado(dadoPrincipal, 10);
                         cambiarDado();
                         actualizarInterfaz();
-
                     }
                 }
             }
@@ -345,6 +347,10 @@ public class GUIGridBagLayout extends JFrame {
                     cambiarDado();
                 }
                 actualizarInformacion();
+            }
+            if (modelGame.contarDadosActivos() == 0 || modelGame.soloHay("42")){
+                modelGame.actualizarRonda();
+                actualizarInterfaz();
             }
             revalidate();
             repaint();
@@ -476,7 +482,6 @@ public class GUIGridBagLayout extends JFrame {
            panelInactivos.removeAll();
            panelUtilizados.removeAll();
            actualizarInformacion ();
-           tarjetaPuntuacion.setText("Puntuacion de la ronda: "+ modelGame.getPuntuacionRonda() +"            Puntuacion acumulada: "+ modelGame.getPuntuacionJuego());
            tarjetaRonda.setText("Ronda: "+ modelGame.getNumeroRonda());
            for (int i=0;i<10;i++){
                if(zonaActivos[i]!=null){
@@ -547,9 +552,10 @@ public class GUIGridBagLayout extends JFrame {
                repaint();
            }
            controlLabel=1;
+           modelGame.actualizarRonda();
+           tarjetaPuntuacion.setText("Puntuacion de la ronda: "+ modelGame.getPuntuacionRonda() +"            Puntuacion acumulada: "+ modelGame.getPuntuacionJuego());
            revalidate();
            repaint();
-
        }
        private void escogerDadoSecundario(){
             cambiarDado();
@@ -573,11 +579,7 @@ public class GUIGridBagLayout extends JFrame {
        }
        private void cambiarDado(){
             actualizarInformacion();
-           if (modelGame.contarDadosActivos() == 0 || modelGame.soloHay("42")){
-               modelGame.actualizarRonda();
-
-           }
-           else if (dadoSeleccionado<modelGame.contarDadosActivos()){
+            if (dadoSeleccionado<modelGame.contarDadosActivos()){
                seleccionDado.setText("El dado seleccionado es"+"\nel dado numero ("+(dadoSeleccionado+1)+") "+zonaActivos[dadoSeleccionado]);
                dadoSeleccionado=dadoSeleccionado+1;
            }
