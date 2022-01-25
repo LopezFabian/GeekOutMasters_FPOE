@@ -31,11 +31,10 @@ public class GUIGridBagLayout extends JFrame {
     private JButton activar, cambiar, ayuda, escoger;
     private JPanel panelRondas, panelActivos, panelInactivos, panelUtilizados, panelPuntuacion, panelSeleccion, panelInteraccion, panelPuntos;
     private ImageIcon imageDados, imagePuntuacion;
-    private JTextArea seleccionDado, tarjetaPuntuacion, tarjetaRonda;
+    private JTextArea seleccionDado, tarjetaPuntuacion, tarjetaRonda, mensajeFinal;
     private Escucha escucha;
     private ModelGame modelGame;
     private int dadoSeleccionado,flag,controlLabel,dadoSecundario,dadoPrincipal;
-
 
     /**
      * Constructor of GUI class
@@ -72,6 +71,7 @@ public class GUIGridBagLayout extends JFrame {
         //Set up JComponents
         seleccionDado = new JTextArea(2, 6);
         tarjetaPuntuacion = new JTextArea( 2, 5 );
+        mensajeFinal = new JTextArea( 2, 5 );
         tarjetaRonda = new JTextArea(1, 5);
 
 
@@ -103,7 +103,7 @@ public class GUIGridBagLayout extends JFrame {
         dado9 = new JLabel(imageDados);
         dado10 = new JLabel(imageDados);
 
-        imagePuntuacion = new ImageIcon(getClass().getResource("/resources/ImagePuntuacion.jpeg"));
+        imagePuntuacion = new ImageIcon(getClass().getResource("/resources/welcome.png"));
         puntos = new JLabel(imagePuntuacion);
 
 
@@ -176,6 +176,9 @@ public class GUIGridBagLayout extends JFrame {
         panelPuntos.setBackground(Color.lightGray);
         panelPuntuacion.add(panelPuntos, BorderLayout.NORTH);
         tarjetaPuntuacion.setBackground(null);
+        tarjetaPuntuacion.setEditable(false);
+        mensajeFinal.setBackground(null);
+        mensajeFinal.setEditable(false);
         panelPuntos.add(tarjetaPuntuacion);
 
         panelPuntuacion.add(puntos, BorderLayout.SOUTH);
@@ -187,7 +190,6 @@ public class GUIGridBagLayout extends JFrame {
         constrains.gridx = 0;
         constrains.gridy = 6;
         constrains.gridheight = 1;
-        //constrains.insets =(0,0,0,0) ;
         constrains.fill = GridBagConstraints.BOTH;
         constrains.anchor = GridBagConstraints.CENTER;
         add(panelInteraccion,constrains);
@@ -232,7 +234,7 @@ public class GUIGridBagLayout extends JFrame {
         GBCInterno.gridx = 1;
         GBCInterno.gridy = 1;
         GBCInterno.ipadx = 8;
-        GBCInterno.gridheight = 1;
+        //GBCInterno.gridheight = 1;
         GBCInterno.gridwidth = 1;
         GBCInterno.weighty = 50.0;
         GBCInterno.fill = GridBagConstraints.NONE;
@@ -263,7 +265,7 @@ public class GUIGridBagLayout extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == cambiar) {
-                if(flag==0) {
+                if(flag!=1) {
                     cambiar.setText("cambiar");
                     GridBagConstraints GBCInterno = new GridBagConstraints();
                     GBCInterno.gridx = 1;
@@ -275,6 +277,11 @@ public class GUIGridBagLayout extends JFrame {
                     GBCInterno.anchor = GridBagConstraints.LAST_LINE_END;
                     panelInteraccion.add(cambiar, GBCInterno);
 
+                    if (flag == 2) {
+                        panelPuntos.remove(mensajeFinal);
+                        panelPuntos.add(tarjetaPuntuacion);
+                    }
+
                     panelSeleccion.setVisible(true);
                     activar.setVisible(true);
                     flag=1;
@@ -283,6 +290,10 @@ public class GUIGridBagLayout extends JFrame {
                     seleccionDado.setFont(new Font(Font.DIALOG,Font.BOLD+Font.ITALIC,12));
                     panelSeleccion.add(seleccionDado);
 
+
+
+                    imagePuntuacion = new ImageIcon(getClass().getResource("/resources/ImagePuntuacion.jpeg"));
+                    puntos.setIcon(imagePuntuacion);
                     actualizarInterfaz();
                 }
                 cambiarDado();
@@ -350,12 +361,13 @@ public class GUIGridBagLayout extends JFrame {
             }
             if (modelGame.contarDadosActivos() == 0 || modelGame.soloHay("42")){
                 modelGame.actualizarRonda();
+                nuevoJuego();
                 actualizarInterfaz();
             }
             revalidate();
             repaint();
         }
-        private String getJLabel(int dadoN) {
+       private String getJLabel(int dadoN) {
             switch (dadoN) {
                 case 1 :dado1.setIcon(imageDados);
                     break;
@@ -553,6 +565,7 @@ public class GUIGridBagLayout extends JFrame {
            }
            controlLabel=1;
            modelGame.actualizarRonda();
+           nuevoJuego();
            tarjetaPuntuacion.setText("Puntuacion de la ronda: "+ modelGame.getPuntuacionRonda() +"            Puntuacion acumulada: "+ modelGame.getPuntuacionJuego());
            revalidate();
            repaint();
@@ -587,6 +600,63 @@ public class GUIGridBagLayout extends JFrame {
                seleccionDado.setText("El dado seleccionado es"+"\nel dado numero ("+(1)+") "+zonaActivos[0]);
                dadoSeleccionado=1;
            }
+       }
+       private void nuevoJuego(){
+            if(modelGame.isEndGame()){
+                panelActivos.removeAll();
+                panelInactivos.removeAll();
+                panelUtilizados.removeAll();
+
+                cambiar.setText("Reiniciar Juego");
+                GridBagConstraints GBCInterno = new GridBagConstraints();
+                GBCInterno.anchor = GridBagConstraints.CENTER;
+                panelInteraccion.add(cambiar, GBCInterno);
+
+                panelSeleccion.setVisible(false);
+                activar.setVisible(false);
+
+                tarjetaRonda.setText("");
+
+                panelPuntos.remove(tarjetaPuntuacion);
+
+                imageDados = new ImageIcon(getClass().getResource("/resources/descargaE.png"));
+                dado1.setIcon(imageDados);
+                dado2.setIcon(imageDados);
+                dado3.setIcon(imageDados);
+                dado4.setIcon(imageDados);
+                dado5.setIcon(imageDados);
+                dado6.setIcon(imageDados);
+                dado7.setIcon(imageDados);
+                dado8.setIcon(imageDados);
+                dado9.setIcon(imageDados);
+                dado10.setIcon(imageDados);
+
+                panelActivos.add(dado1);
+                panelActivos.add(dado2);
+                panelActivos.add(dado3);
+                panelActivos.add(dado4);
+                panelActivos.add(dado5);
+                panelActivos.add(dado6);
+                panelActivos.add(dado7);
+                panelActivos.add(dado8);
+                panelActivos.add(dado9);
+                panelActivos.add(dado10);
+
+                if(modelGame.getPuntuacionJuego()>=30){
+                    mensajeFinal.setText("Felicidades, lograste acumular "+ modelGame.getPuntuacionJuego()+" puntos.");
+                    imagePuntuacion = new ImageIcon(getClass().getResource("/resources/win.png"));
+                    puntos.setIcon(imagePuntuacion);
+                }else{
+                    mensajeFinal.setText("Lo sentimos, lograste acumular"+ modelGame.getPuntuacionJuego()+" puntos.");
+                    imagePuntuacion = new ImageIcon(getClass().getResource("/resources/gameOver.png"));
+                    puntos.setIcon(imagePuntuacion);
+                }
+                panelPuntos.add(mensajeFinal);
+                modelGame.reIniciarJuego();
+                flag=2;
+                repaint();
+                revalidate();
+            }
        }
     }
 

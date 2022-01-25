@@ -13,7 +13,7 @@ import javax.swing.*;
 public class ModelGame {
     private Dado[] dadosActivos, dadosInactivos, dadosUtilizados;
     private int puntuacionRonda ,puntuacionJuego, cantidadDadosA, numeroRonda;
-
+    private boolean endGame,dragonActivado;
     /**
      * Class Constructor
      */
@@ -23,6 +23,8 @@ public class ModelGame {
         dadosUtilizados= new Dado[10];
         cantidadDadosA=0;
         numeroRonda=1;
+        endGame=false;
+        dragonActivado=false;
         iniciarRonda();
     }
 
@@ -86,6 +88,7 @@ public class ModelGame {
         }else if(dadosActivos[dadoActivar].getCara()=="dragon"){
             puntuacionRonda = 0;
             puntuacionJuego = 0;
+            dragonActivado=true;
         }
         dadosActivos[dadoActivar]=null;
         reOrganizarVector(dadosActivos);
@@ -147,10 +150,7 @@ public class ModelGame {
             cambiarRonda();
         }
         else if (contarDadosActivos() == 1){
-            if (dadosActivos[0].getCara().equals("corazon")&&contarDados(dadosInactivos)==0){
-                cambiarRonda();
-            }
-            else if (dadosActivos[0].getCara().equals("meeple")){
+            if (dadosActivos[0].getCara().equals("meeple")){
                 cambiarRonda();
             }
             else if(dadosActivos[0].getCara().equals("superheroe")){
@@ -166,24 +166,28 @@ public class ModelGame {
         else if (soloHay("dragon")){
             cambiarRonda();
             puntuacionJuego=0;
+            dragonActivado=true;
         }
     }
     private void cambiarRonda(){
         int puntuacionRondaActual= getPuntuacionRonda();
         puntuacionJuego+=puntuacionRondaActual;
+
+        if(dragonActivado){
+            puntuacionJuego=0;
+        }
         puntuacionRonda = 0;
         if (numeroRonda < 5){
             numeroRonda++;
+            iniciarRonda();
         }
         else if(numeroRonda == 5 ){
-            numeroRonda = 1;
-            puntuacionJuego = 0;
+            endGame=true;
         }
-        iniciarRonda();
+
     }
     public int getPuntuacionJuego(){
             return puntuacionJuego;
-
     }
     public int getNumeroRonda(){
         return numeroRonda;
@@ -219,5 +223,13 @@ public class ModelGame {
         }
         return  dadosAccion;
     }
-
+    public boolean isEndGame() {
+        return endGame;
+    }
+    public void reIniciarJuego(){
+        numeroRonda = 1;
+        puntuacionJuego = 0;
+        iniciarRonda();
+        endGame=false;
+    }
 }
