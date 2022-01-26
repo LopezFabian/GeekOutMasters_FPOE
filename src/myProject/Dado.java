@@ -2,6 +2,13 @@ package myProject;
 
 import java.util.Random;
 
+/**
+ *
+ * @author Fabian Lopez
+ * @author Juan Jose Viafara
+ * @version V.1.2.0 date 16/01/2022
+ */
+
 public class Dado {
     private String cara, caraContraria;
     private int numberCara;
