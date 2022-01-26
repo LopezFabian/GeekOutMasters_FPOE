@@ -28,7 +28,7 @@ public class ModelGame {
         iniciarRonda();
     }
 
-    public int contarDados(Dado[] vectorDados){
+    private int contarDados(Dado[] vectorDados){
         int cantidadDadosA=0;
         for (int i=0;i<10;i++){
             if(vectorDados[i]!=null){
@@ -36,6 +36,15 @@ public class ModelGame {
             }
         }
         return cantidadDadosA;
+    }
+    public int contarDadosIU(String dados){
+        int nDadosVector=0;
+        if (dados.equals("inactivos")){
+            nDadosVector= contarDados(dadosInactivos);
+        }else if (dados.equals("utilizados")){
+            nDadosVector= contarDados(dadosUtilizados);
+        }
+        return nDadosVector;
     }
     public int contarDadosActivos(){
         return contarDados(dadosActivos);
@@ -146,20 +155,6 @@ public class ModelGame {
         return soloHay;
     }
     public void actualizarRonda(){
-        if (contarDadosActivos() == 0){
-            cambiarRonda();
-        }
-        else if (contarDadosActivos() == 1){
-            if (dadosActivos[0].getCara().equals("meeple")){
-                cambiarRonda();
-            }
-            else if(dadosActivos[0].getCara().equals("superheroe")){
-                cambiarRonda();
-            }
-            else if(dadosActivos[0].getCara().equals("cohete")){
-                cambiarRonda();
-            }
-        }
         if (soloHay("42")){
             cambiarRonda();
         }
@@ -167,6 +162,20 @@ public class ModelGame {
             cambiarRonda();
             puntuacionJuego=0;
             dragonActivado=true;
+        }
+        else if (contarDadosActivos() == 0){
+            cambiarRonda();
+        }
+        else if (contarDadosActivos() == 1){
+         if (dadosActivos[0].getCara().equals("meeple")){
+         cambiarRonda();
+         }
+         else if(dadosActivos[0].getCara().equals("superheroe")){
+         cambiarRonda();
+         }
+         else if(dadosActivos[0].getCara().equals("cohete")){
+         cambiarRonda();
+         }
         }
     }
     private void cambiarRonda(){
@@ -193,7 +202,7 @@ public class ModelGame {
         return numeroRonda;
     }
     private void iniciarRonda(){
-
+        dragonActivado=false;
         for (int i=0; i<10;i++){
             dadosActivos[i] = null;
             dadosInactivos[i] = null;

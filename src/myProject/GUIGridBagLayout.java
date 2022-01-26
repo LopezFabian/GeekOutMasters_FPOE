@@ -11,9 +11,8 @@ import java.awt.event.ActionListener;
  * @version V.1.3.0 date 23/01/2022
  */
 public class GUIGridBagLayout extends JFrame {
-    private static final String MENSAJE_INICIO = "Bienvenido a Geek Out Masters \n"
-            + "Oprime el boton activar para iniciar el juego y luego de que inicie, Con el podras activar el dado seleccionado"
-            + "Oprime el boton cambiar para cambiar el dado seleccionado"
+    private static final String MENSAJE_INICIO =  "Inicia el juego, con el boton 'Activar' podras activar el dado seleccionado"
+            + "Oprime el boton 'Cambiar' para cambiar el dado seleccionado"
             + "\nEl Meeple permite relanzar otro dado en juego, es decir, de la sección dados activos."
             + "\nLa Nave Espacial envía un dado no usado (de la sección dados activos) a la sección de dados\n" +
             "inactivos."
@@ -35,6 +34,7 @@ public class GUIGridBagLayout extends JFrame {
     private Escucha escucha;
     private ModelGame modelGame;
     private int dadoSeleccionado,flag,controlLabel,dadoSecundario,dadoPrincipal;
+
 
     /**
      * Constructor of GUI class
@@ -296,7 +296,7 @@ public class GUIGridBagLayout extends JFrame {
                     puntos.setIcon(imagePuntuacion);
                     actualizarInterfaz();
                 }
-                cambiarDado();
+                cambiarDado(true,"");
             }
             else if (e.getSource() == ayuda) {
                 JOptionPane.showMessageDialog(null, MENSAJE_INICIO);
@@ -306,7 +306,7 @@ public class GUIGridBagLayout extends JFrame {
                 if (dadoPrincipal==-1){
                     dadoPrincipal=modelGame.contarDadosActivos()-1;
                 }else if(zonaActivos[dadoPrincipal]==null){
-                    cambiarDado();
+                    cambiarDado(true,"activar");
                 }
 
                 if (zonaActivos[dadoPrincipal].equals("meeple")) {
@@ -321,17 +321,20 @@ public class GUIGridBagLayout extends JFrame {
                 }
                 else if (zonaActivos[dadoPrincipal].equals("corazon")){
                         modelGame.activarDado(dadoPrincipal, 10);
-                        cambiarDado();
+                        cambiarDado(true,"activar");
                         actualizarInterfaz();
                 }
                 else if (zonaActivos[dadoPrincipal].equals("dragon")){
                     if (modelGame.hayMasDadosAccion()){
-                        cambiarDado();
+                        cambiarDado(false,"activar");
                     }else {
                         modelGame.activarDado(dadoPrincipal, 10);
-                        cambiarDado();
+                        cambiarDado(true,"activar");
                         actualizarInterfaz();
                     }
+                }
+                else if (zonaActivos[dadoPrincipal].equals("42")){
+                    cambiarDado(false,"activar");
                 }
             }
             else if (e.getSource()== escoger){
@@ -351,11 +354,11 @@ public class GUIGridBagLayout extends JFrame {
                     panelInteraccion.add(cambiar, GBCInterno);
 
                     modelGame.activarDado(dadoPrincipal,dadoSecundario);
-                    cambiarDado();
+                    cambiarDado(true,"escoger");
                     actualizarInterfaz();
                 }
                 else{
-                    cambiarDado();
+                    cambiarDado(false,"escoger");
                 }
                 actualizarInformacion();
             }
@@ -367,7 +370,7 @@ public class GUIGridBagLayout extends JFrame {
             revalidate();
             repaint();
         }
-       private String getJLabel(int dadoN) {
+        private String getJLabel(int dadoN) {
             switch (dadoN) {
                 case 1 :dado1.setIcon(imageDados);
                     break;
@@ -392,7 +395,7 @@ public class GUIGridBagLayout extends JFrame {
                 }
         return "dado"+dadoN;
         }
-       private void addLabel(String dadoNu,String zona){
+        private void addLabel(String dadoNu,String zona){
 
             if(dadoNu.equals("dado1")){
                 if(zona.equals("dadosActivos")){
@@ -489,7 +492,7 @@ public class GUIGridBagLayout extends JFrame {
                 }
             }
        }
-       private void actualizarInterfaz(){
+        private void actualizarInterfaz(){
            panelActivos.removeAll();
            panelInactivos.removeAll();
            panelUtilizados.removeAll();
@@ -563,6 +566,22 @@ public class GUIGridBagLayout extends JFrame {
                revalidate();
                repaint();
            }
+           if (modelGame.contarDadosIU("inactivos")>3&&modelGame.contarDadosIU("utilizados")<4){
+               panelUtilizados.setPreferredSize(new Dimension(330, 130));
+               panelInactivos.setPreferredSize(new Dimension(330, 330));
+           }
+           else if (modelGame.contarDadosIU("utilizados")>3&&modelGame.contarDadosIU("inactivos")<4){
+                panelUtilizados.setPreferredSize(new Dimension(330, 330));
+                panelInactivos.setPreferredSize(new Dimension(330, 130));
+           }
+           else if(modelGame.contarDadosIU("inactivos")==0&&modelGame.contarDadosIU("utilizados")>6) {
+               panelUtilizados.setPreferredSize(new Dimension(330, 430));
+               panelInactivos.setPreferredSize(new Dimension(330, 30));
+           }
+           else {
+               panelUtilizados.setPreferredSize(new Dimension(330, 230));
+               panelInactivos.setPreferredSize(new Dimension(330, 230));
+           }
            controlLabel=1;
            modelGame.actualizarRonda();
            nuevoJuego();
@@ -570,8 +589,8 @@ public class GUIGridBagLayout extends JFrame {
            revalidate();
            repaint();
        }
-       private void escogerDadoSecundario(){
-            cambiarDado();
+        private void escogerDadoSecundario(){
+            cambiarDado(true,"activar");
 
            activar.setVisible(false);
            escoger.setVisible(true);
@@ -585,23 +604,42 @@ public class GUIGridBagLayout extends JFrame {
            panelInteraccion.add(cambiar, GBCInterno);
            actualizarInterfaz();
        }
-       private void actualizarInformacion (){
+        private void actualizarInformacion (){
            zonaActivos= modelGame.getCaraDado("dadosActivos");
            zonaUtilizados= modelGame.getCaraDado("dadosUtilizados");
            zonaInactivos= modelGame.getCaraDado("dadosInactivos");
        }
-       private void cambiarDado(){
-            actualizarInformacion();
-            if (dadoSeleccionado<modelGame.contarDadosActivos()){
-               seleccionDado.setText("El dado seleccionado es"+"\nel dado numero ("+(dadoSeleccionado+1)+") "+zonaActivos[dadoSeleccionado]);
-               dadoSeleccionado=dadoSeleccionado+1;
-           }
-           else if(dadoSeleccionado>=modelGame.contarDadosActivos()){
-               seleccionDado.setText("El dado seleccionado es"+"\nel dado numero ("+(1)+") "+zonaActivos[0]);
-               dadoSeleccionado=1;
-           }
-       }
-       private void nuevoJuego(){
+        private void cambiarDado(boolean dadoAceptado, String boton) {
+            if (dadoAceptado) {
+                actualizarInformacion();
+                if (dadoSeleccionado < modelGame.contarDadosActivos()) {
+                    seleccionDado.setText("El dado seleccionado es" + "\nel dado numero (" + (dadoSeleccionado + 1) + ") " + zonaActivos[dadoSeleccionado]);
+                    dadoSeleccionado = dadoSeleccionado + 1;
+                } else if (dadoSeleccionado >= modelGame.contarDadosActivos()) {
+                    seleccionDado.setText("El dado seleccionado es" + "\nel dado numero (" + 1 + ") " + zonaActivos[0]);
+                    dadoSeleccionado = 1;
+                }
+            }else {
+                actualizarInformacion();
+
+                if (dadoSeleccionado < modelGame.contarDadosActivos()) {
+                    if (boton.equals("activar")){
+                        seleccionDado.setText("No puedes activar este dado, Ahora"+"\nEl dado seleccionado es" + "\nel dado numero (" + (dadoSeleccionado + 1) + ") " + zonaActivos[dadoSeleccionado]);
+                    }else if(boton.equals("escoger")){
+                        seleccionDado.setText("No puedes escoger este dado, Ahora"+"\nEl dado seleccionado es" + "\nel dado numero (" + (dadoSeleccionado + 1) + ") " + zonaActivos[dadoSeleccionado]);
+                    }
+                    dadoSeleccionado += 1;
+                } else if (dadoSeleccionado >= modelGame.contarDadosActivos()) {
+                    if (boton.equals("activar")){
+                        seleccionDado.setText("No puedes activar este dado, Ahora"+"\nEl dado seleccionado es" + "\nel dado numero (" + 1 + ") " + zonaActivos[0]);
+                    }else if(boton.equals("escoger")){
+                        seleccionDado.setText("No puedes escoger este dado, Ahora"+"\nEl dado seleccionado es" + "\nel dado numero (" + 1 + ") " + zonaActivos[0]);
+                    }
+                    dadoSeleccionado = 1;
+                }
+            }
+        }
+        private void nuevoJuego(){
             if(modelGame.isEndGame()){
                 panelActivos.removeAll();
                 panelInactivos.removeAll();
@@ -647,7 +685,7 @@ public class GUIGridBagLayout extends JFrame {
                     imagePuntuacion = new ImageIcon(getClass().getResource("/resources/win.png"));
                     puntos.setIcon(imagePuntuacion);
                 }else{
-                    mensajeFinal.setText("Lo sentimos, lograste acumular"+ modelGame.getPuntuacionJuego()+" puntos.");
+                    mensajeFinal.setText("Lo sentimos, lograste acumular "+ modelGame.getPuntuacionJuego()+" puntos.");
                     imagePuntuacion = new ImageIcon(getClass().getResource("/resources/gameOver.png"));
                     puntos.setIcon(imagePuntuacion);
                 }
