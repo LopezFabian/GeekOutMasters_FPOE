@@ -7,7 +7,7 @@ import javax.swing.*;
  *
  * @author Fabian Lopez
  * @author Juan Jose Viafara
- * @version V.1.3.0 date 23/01/2022
+ * @version V.2.0.0 date 26/01/2022
  */
 
 public class ModelGame {
@@ -184,6 +184,7 @@ public class ModelGame {
 
         if(dragonActivado){
             puntuacionJuego=0;
+            dragonActivado=false;
         }
         puntuacionRonda = 0;
         if (numeroRonda < 5){
@@ -239,6 +240,5 @@ public class ModelGame {
         numeroRonda = 1;
         puntuacionJuego = 0;
         iniciarRonda();
-        endGame=false;
     }
 }

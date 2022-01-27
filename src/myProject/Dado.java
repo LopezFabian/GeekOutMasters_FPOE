@@ -6,7 +6,7 @@ import java.util.Random;
  *
  * @author Fabian Lopez
  * @author Juan Jose Viafara
- * @version V.1.2.0 date 16/01/2022
+ * @version V.2.0.0 date 16/01/2022
  */
 
 public class Dado {
