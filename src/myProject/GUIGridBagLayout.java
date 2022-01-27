@@ -567,11 +567,11 @@ public class GUIGridBagLayout extends JFrame {
                revalidate();
                repaint();
            }
-           if (modelGame.contarDadosIU("inactivos")>3&&modelGame.contarDadosIU("utilizados")<4){
+           if (modelGame.contarDadosIU("inactivos")>6&&modelGame.contarDadosIU("utilizados")<4){
                panelUtilizados.setPreferredSize(new Dimension(330, 130));
                panelInactivos.setPreferredSize(new Dimension(330, 330));
            }
-           else if (modelGame.contarDadosIU("utilizados")>3&&modelGame.contarDadosIU("inactivos")<4){
+           else if (modelGame.contarDadosIU("utilizados")>6&&modelGame.contarDadosIU("inactivos")<4){
                 panelUtilizados.setPreferredSize(new Dimension(330, 330));
                 panelInactivos.setPreferredSize(new Dimension(330, 130));
            }

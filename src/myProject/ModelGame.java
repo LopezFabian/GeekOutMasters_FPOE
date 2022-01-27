@@ -240,5 +240,6 @@ public class ModelGame {
         numeroRonda = 1;
         puntuacionJuego = 0;
         iniciarRonda();
+        endGame=false;
     }
 }
