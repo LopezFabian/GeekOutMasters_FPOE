@@ -53,6 +53,11 @@ public class Dado {
         }
         return caraContraria;
     }
+
+    /**
+     * change the face of a dice
+     * @param caraS the face you want to change to
+     **/
     public void setCara(String caraS){
         switch (caraS) {
             case "meeple" -> numberCara = 1;

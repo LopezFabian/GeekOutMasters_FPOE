@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * This class is used for ...
+ * This class is used to graph the game
  * @autor Fabian Lopez
  * @autor Juan Jose Viafara
  * @version V.2.0.0 date 26/01/2022
@@ -257,7 +257,7 @@ public class GUIGridBagLayout extends JFrame {
     }
 
     /**
-     * inner class that extends an Adapter Class or implements Listeners used by GUI class
+     * inner class that extends an Adapter Class or implements Listeners used by GUI class, in charge of monitoring the user's actions with the program and updating the interface and the game accordingly.
      */
 
     private class Escucha implements ActionListener {
@@ -265,6 +265,9 @@ public class GUIGridBagLayout extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            /*
+            * 'cambiar'button, responsible for updating the selected die
+            * */
             if (e.getSource() == cambiar) {
                 if(flag!=1) {
                     cambiar.setText("cambiar");
@@ -300,9 +303,15 @@ public class GUIGridBagLayout extends JFrame {
                 }
                 cambiarDado(true,"");
             }
+            /*
+             * 'ayuda'button, responsible for show the help information
+             * */
             else if (e.getSource() == ayuda) {
                 JOptionPane.showMessageDialog(null, MENSAJE_INICIO);
             }
+            /*
+             * 'activa'button, responsible for activating the die, decides whether it is necessary to select another die, or if possible, to activate the selected die.
+             * */
             else if (e.getSource() == activar){
                 dadoPrincipal=dadoSeleccionado-1;
                 if (dadoPrincipal==-1){
@@ -339,6 +348,9 @@ public class GUIGridBagLayout extends JFrame {
                     cambiarDado(false,"activar");
                 }
             }
+            /*
+             * if a die has been activated and it requires a second die it is the responsibility of 'escoger' button
+             * */
             else if (e.getSource()== escoger){
                 actualizarInformacion();
                 if(dadoPrincipal!=dadoSeleccionado-1){
@@ -372,6 +384,12 @@ public class GUIGridBagLayout extends JFrame {
             revalidate();
             repaint();
         }
+
+        /**
+         * in charge of adding the image to the label
+         * @param dadoN
+         * @return the die that was manipulated
+         */
         private String getJLabel(int dadoN) {
             switch (dadoN) {
                 case 1 :dado1.setIcon(imageDados);
@@ -397,6 +415,12 @@ public class GUIGridBagLayout extends JFrame {
                 }
         return "dado"+dadoN;
         }
+
+        /**
+         * responsible for adding the label to a certain zone of the interface
+         * @param dadoNu
+         * @param zona
+         */
         private void addLabel(String dadoNu,String zona){
 
             if(dadoNu.equals("dado1")){
@@ -494,6 +518,10 @@ public class GUIGridBagLayout extends JFrame {
                 }
             }
        }
+
+        /**
+         * responsible for implementing all visual changes to the interface
+         */
         private void actualizarInterfaz(){
            panelActivos.removeAll();
            panelInactivos.removeAll();
@@ -591,6 +619,10 @@ public class GUIGridBagLayout extends JFrame {
            revalidate();
            repaint();
        }
+
+        /**
+         * responsible for triggering all visual changes of the interface when a second die is to be selected
+         */
         private void escogerDadoSecundario(){
             cambiarDado(true,"activar");
 
@@ -606,11 +638,21 @@ public class GUIGridBagLayout extends JFrame {
            panelInteraccion.add(cambiar, GBCInterno);
            actualizarInterfaz();
        }
+
+        /**
+         * responsible for querying the internal information, with the model game class
+         */
         private void actualizarInformacion (){
            zonaActivos= modelGame.getCaraDado("dadosActivos");
            zonaUtilizados= modelGame.getCaraDado("dadosUtilizados");
            zonaInactivos= modelGame.getCaraDado("dadosInactivos");
        }
+
+        /**
+         *change the selected die
+         * @param dadoAceptado, the die was correctly selected
+         * @param boton,the button from which the die was selected
+         */
         private void cambiarDado(boolean dadoAceptado, String boton) {
             if (dadoAceptado) {
                 actualizarInformacion();
@@ -641,6 +683,10 @@ public class GUIGridBagLayout extends JFrame {
                 }
             }
         }
+
+        /**
+         *responsible for updating the interface at the end of the game, also to show if you won or lost.
+         */
         private void nuevoJuego(){
             if(modelGame.isEndGame()){
                 panelActivos.removeAll();
