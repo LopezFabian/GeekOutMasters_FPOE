@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="GeekOutMasters_FPOE:jar">
+    <output-path>$USER_HOME$/OneDrive/Escritorio/I/UNIVERSIDAD JUAN JOSE/tercer  semestre/FPOE</output-path>
+    <root id="archive" name="GeekOutMasters_FPOE.jar">
+      <element id="module-output" name="GeekOutMasters_FPOE" />
+    </root>
+  </artifact>
+</component>

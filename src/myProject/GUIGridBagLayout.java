@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 /**
  * This class is used for ...
  * @autor F
- * @version V.1.3.0 date 23/01/2022
+ * @version V.2.0.0 date 26/01/2022
  */
 public class GUIGridBagLayout extends JFrame {
     private static final String MENSAJE_INICIO =  "Inicia el juego, con el boton 'Activar' podras activar el dado seleccionado"
@@ -280,15 +280,16 @@ public class GUIGridBagLayout extends JFrame {
                     if (flag == 2) {
                         panelPuntos.remove(mensajeFinal);
                         panelPuntos.add(tarjetaPuntuacion);
+                    }else{
+                        seleccionDado.setBackground(null);
+                        seleccionDado.setEditable(false);
+                        seleccionDado.setFont(new Font(Font.DIALOG,Font.BOLD+Font.ITALIC,12));
+                        panelSeleccion.add(seleccionDado);
                     }
 
                     panelSeleccion.setVisible(true);
                     activar.setVisible(true);
                     flag=1;
-                    seleccionDado.setBackground(null);
-                    seleccionDado.setEditable(false);
-                    seleccionDado.setFont(new Font(Font.DIALOG,Font.BOLD+Font.ITALIC,12));
-                    panelSeleccion.add(seleccionDado);
 
 
 
@@ -566,11 +567,11 @@ public class GUIGridBagLayout extends JFrame {
                revalidate();
                repaint();
            }
-           if (modelGame.contarDadosIU("inactivos")>3&&modelGame.contarDadosIU("utilizados")<4){
+           if (modelGame.contarDadosIU("inactivos")>6&&modelGame.contarDadosIU("utilizados")<4){
                panelUtilizados.setPreferredSize(new Dimension(330, 130));
                panelInactivos.setPreferredSize(new Dimension(330, 330));
            }
-           else if (modelGame.contarDadosIU("utilizados")>3&&modelGame.contarDadosIU("inactivos")<4){
+           else if (modelGame.contarDadosIU("utilizados")>6&&modelGame.contarDadosIU("inactivos")<4){
                 panelUtilizados.setPreferredSize(new Dimension(330, 330));
                 panelInactivos.setPreferredSize(new Dimension(330, 130));
            }
@@ -692,8 +693,6 @@ public class GUIGridBagLayout extends JFrame {
                 panelPuntos.add(mensajeFinal);
                 modelGame.reIniciarJuego();
                 flag=2;
-                repaint();
-                revalidate();
             }
        }
     }
