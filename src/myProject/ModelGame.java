@@ -3,8 +3,8 @@ package myProject;
 import javax.swing.*;
 
 /**
- * ModelGame apply Geek Out Masters rules.
- *
+ * ModelGame apply Geek Out Masters rules, actions as well as the dynamics of the game..
+ * The game will be won if 30 points are scored in 5 consecutive rounds of play.
  * @author Fabian Lopez
  * @author Juan Jose Viafara
  * @version V.2.0.0 date 26/01/2022
@@ -118,6 +118,11 @@ public class ModelGame {
         }
         return vectorRetornar;
     }
+
+    /**
+     *  Method that generates the score of the round you are in.
+     * @return score according to the number of "42" you have in dadosActivos.
+     */
     public int getPuntuacionRonda(){
         int numeroDe42 = 0;
         puntuacionRonda = 0;
@@ -142,6 +147,12 @@ public class ModelGame {
         }
         return puntuacionRonda;
     }
+
+    /**
+     *
+     * @param caraDado
+     * @return
+     */
     public boolean soloHay(String caraDado){
         boolean soloHay = true;
         for(int i=0; i<10;i++){
@@ -154,6 +165,10 @@ public class ModelGame {
         }
         return soloHay;
     }
+
+    /**
+     *
+     */
     public void actualizarRonda(){
         if (soloHay("42")){
             cambiarRonda();
@@ -178,6 +193,10 @@ public class ModelGame {
          }
         }
     }
+
+    /**
+     *
+     */
     private void cambiarRonda(){
         int puntuacionRondaActual= getPuntuacionRonda();
         puntuacionJuego+=puntuacionRondaActual;
@@ -221,6 +240,11 @@ public class ModelGame {
             }
         }
     }
+
+    /**
+     * determines if there are still dice in the "Active dice" area that can be activated.
+     * @return
+     */
     public boolean hayMasDadosAccion(){
         boolean dadosAccion = false;
         for (int i=0; i<10;i++) {
@@ -233,9 +257,18 @@ public class ModelGame {
         }
         return  dadosAccion;
     }
+
+    /**
+     *
+     * @return
+     */
     public boolean isEndGame() {
         return endGame;
     }
+
+    /**
+     *
+     */
     public void reIniciarJuego(){
         numeroRonda = 1;
         puntuacionJuego = 0;

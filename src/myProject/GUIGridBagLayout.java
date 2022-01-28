@@ -7,7 +7,8 @@ import java.awt.event.ActionListener;
 
 /**
  * This class is used for ...
- * @autor F
+ * @autor Fabian Lopez
+ * @autor Juan Jose Viafara
  * @version V.2.0.0 date 26/01/2022
  */
 public class GUIGridBagLayout extends JFrame {
