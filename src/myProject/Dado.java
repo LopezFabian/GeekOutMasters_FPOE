@@ -38,6 +38,10 @@ public class Dado {
         }
         return cara;
     }
+    /**
+     * Method that generate a random value to caraContraria.
+     * @return meeple, cohete, superheroe, corazon, dragon or 42
+     */
     public String getCaraContraria(){
         switch (numberCara) {
             case 1 -> caraContraria = "cohete";
