@@ -28,6 +28,11 @@ public class ModelGame {
         iniciarRonda();
     }
 
+    /**
+     *count the dice
+     * @param vectorDados, dice to count
+     * @return dice number in the vector
+     */
     private int contarDados(Dado[] vectorDados){
         int cantidadDadosA=0;
         for (int i=0;i<10;i++){
@@ -37,6 +42,11 @@ public class ModelGame {
         }
         return cantidadDadosA;
     }
+    /**
+     *count the dice for other class, in the vector 'dadosInactivos' or 'dadosUtilizados'
+     * @param dados, dice to count
+     * @return dice number in the vector
+     */
     public int contarDadosIU(String dados){
         int nDadosVector=0;
         if (dados.equals("inactivos")){
@@ -46,9 +56,18 @@ public class ModelGame {
         }
         return nDadosVector;
     }
+    /**
+     *count the dice in 'dadosActivos' vector
+     * @return dice number in the vector
+     */
     public int contarDadosActivos(){
         return contarDados(dadosActivos);
     }
+
+    /**
+     * rearranges a vector so that the dice are always in order
+     * @param vectorDados, organized
+     */
     public void reOrganizarVector(Dado[] vectorDados){
         int dadosEnVector=contarDados(vectorDados);
         for (int i=0;i<10;i++){
@@ -64,6 +83,12 @@ public class ModelGame {
         }
         vectorDados[dadosEnVector]=null;
     }
+
+    /**
+     * responsible for performing the actions depending on the die that has been activated
+     * @param dadoActivar, the main die, which was activated (the position of the die in the "zonaActivos")
+     * @param dadoEscogido,some dice require another die on which to execute some action(the position of the die in the "zonaActivos"), if not required, expect a 10
+     */
     public void activarDado(int dadoActivar,int dadoEscogido){
         int dadoAC = contarDados(dadosUtilizados);
         dadosUtilizados[dadoAC]= new Dado();
@@ -103,6 +128,12 @@ public class ModelGame {
         reOrganizarVector(dadosActivos);
         actualizarRonda();
     }
+
+    /**
+     *
+     * @param nombreVector, the vector, which wants to know the face of its dice
+     * @return responsible for reporting the face of the dice in the vector
+     */
     public String[] getCaraDado(String nombreVector){
         String vectorRetornar[]= new String[10];
         for(int i=0; i<10;i++){
@@ -149,9 +180,8 @@ public class ModelGame {
     }
 
     /**
-     *
-     * @param caraDado
-     * @return
+     * @param caraDado,face of the die you want to know if there is only one of that type.
+     * @return boolean yes or no
      */
     public boolean soloHay(String caraDado){
         boolean soloHay = true;
@@ -167,7 +197,7 @@ public class ModelGame {
     }
 
     /**
-     *
+     *responsible for deciding if a round is over
      */
     public void actualizarRonda(){
         if (soloHay("42")){
@@ -195,7 +225,7 @@ public class ModelGame {
     }
 
     /**
-     *
+     *responsible to change the round
      */
     private void cambiarRonda(){
         int puntuacionRondaActual= getPuntuacionRonda();
@@ -215,12 +245,26 @@ public class ModelGame {
         }
 
     }
+
+    /**
+     *
+     * @return points accumulated so far in previous rounds
+     */
     public int getPuntuacionJuego(){
             return puntuacionJuego;
     }
+
+    /**
+     *
+     * @return points accumulated in the actual round
+     */
     public int getNumeroRonda(){
         return numeroRonda;
     }
+
+    /**
+     * responsible start a new round
+     */
     private void iniciarRonda(){
         dragonActivado=false;
         for (int i=0; i<10;i++){
@@ -242,8 +286,8 @@ public class ModelGame {
     }
 
     /**
-     * determines if there are still dice in the "Active dice" area that can be activated.
-     * @return
+     * determines if there are still dice in the "dadosActivos" vector that can be activated.
+     * @return boolean, yes or not
      */
     public boolean hayMasDadosAccion(){
         boolean dadosAccion = false;
@@ -259,15 +303,14 @@ public class ModelGame {
     }
 
     /**
-     *
-     * @return
+     * @return bolean,  whether or not it's game over
      */
     public boolean isEndGame() {
         return endGame;
     }
 
     /**
-     *
+     * restart the game
      */
     public void reIniciarJuego(){
         numeroRonda = 1;
