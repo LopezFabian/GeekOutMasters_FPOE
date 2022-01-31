@@ -233,7 +233,10 @@ public class ModelGame {
 
         if(dragonActivado){
             puntuacionJuego=0;
-            dragonActivado=false;
+            /**
+             * error intencional de la fase de prueba, olvide quitarlo si se revisa versiones anteriores al commit 'final version' se puede constatar
+             */
+            //dragonActivado=false;
         }
         puntuacionRonda = 0;
         if (numeroRonda < 5){
